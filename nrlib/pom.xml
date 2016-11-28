@@ -1,0 +1,116 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>it.nrsoft</groupId>
+  <artifactId>nrlib</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>nrlib</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <build>
+  <plugins>
+    <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>2.19.1</version>
+    <!-- 
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.maven.surefire</groupId>
+        <artifactId>surefire-junit47</artifactId>
+        <version>2.19.1</version>
+      </dependency>
+    </dependencies>
+     -->
+                   <configuration>
+                    <includes>
+                        <include>**/UnitTest*.*</include>
+                    </includes>
+                </configuration>
+  </plugin>
+  
+  
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.5.1</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>  
+  
+  </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    
+<dependency>
+  <groupId>org.eclipse.swt</groupId>
+  <artifactId>org.eclipse.swt.win32.win32.x86_64</artifactId>
+  <version>4.3</version>
+</dependency>    
+
+<dependency>
+  <groupId>org.apache.logging.log4j</groupId>
+  <artifactId>log4j-1.2-api</artifactId>
+  <version>2.1</version>
+</dependency>
+
+<dependency>
+  <groupId>commons-daemon</groupId>
+  <artifactId>commons-daemon</artifactId>
+  <version>1.0.15</version>
+</dependency>
+
+<dependency>
+  <groupId>javax.mail</groupId>
+  <artifactId>javax.mail-api</artifactId>
+  <version>1.5.3</version>
+</dependency>
+
+<dependency>
+  <groupId>org.codehaus.groovy</groupId>
+  <artifactId>groovy</artifactId>
+  <version>2.4.5</version>
+</dependency>
+
+<dependency>
+  <groupId>net.sourceforge.jexcelapi</groupId>
+  <artifactId>jxl</artifactId>
+  <version>2.6.8</version>
+</dependency>
+
+<dependency>
+  <groupId>org.apache.poi</groupId>
+  <artifactId>poi</artifactId>
+  <version>3.11</version>
+</dependency>
+
+<dependency>
+  <groupId>org.apache.poi</groupId>
+  <artifactId>poi-ooxml</artifactId>
+  <version>3.11</version>
+</dependency>
+
+<dependency>
+  <groupId>org.apache.derby</groupId>
+  <artifactId>derby</artifactId>
+  <version>10.12.1.1</version>
+  <scope>test</scope>
+</dependency>
+
+  </dependencies>
+</project>

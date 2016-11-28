@@ -1,0 +1,30 @@
+Connector
+	locale			Two letter code
+
+ConnectorCSV
+	filename
+	separator		Default = ,
+	firstrowheaders	Default = false
+	headers
+
+ConnectorDB
+	tablename			
+	connpropfile	Connection property file
+	catalogname		Depends on the jdbc driver used
+	schemaname		Depends on the jdbc driver used
+
+
+InputConnectorCSV
+	firstrowheaders	Tell whether the first line contains headers
+	headers			Used if firstrowheaders == false
+	
+InputConnectorDB
+	querytext		Only one of querytext, queryfile, tablename is used (in this order)
+	queryfile		
+	
+OutputConnectorCSV
+	firstrowheaders	Tell whether the first written line must contains headers
+	headers			Optional
+	
+OutputConnectorDB
+	cleantable		Default = false	
