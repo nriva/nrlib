@@ -1,6 +1,10 @@
 package it.nrsoft.nrlib.script;
 
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringWriter;
 import java.util.*;
 import javax.script.*;
 
@@ -35,7 +39,6 @@ public abstract class ScriptEngine {
 			try {
 				script = loadScript(scriptId);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		Object o = execute(script);
@@ -49,4 +52,19 @@ public abstract class ScriptEngine {
 	protected abstract Object invoke(String script);
 
 	protected abstract String loadScript(String scriptId) throws IOException ;
+
+	public Object execute(Reader reader) throws IOException {
+		
+		StringWriter writer = new StringWriter();
+		int c = reader.read();
+		while(c!=-1)
+		{
+			writer.write(c);
+			c=reader.read();
+		}
+		
+		reader.close();
+		return execute(writer.toString());
+
+	}
 }
