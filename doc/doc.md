@@ -1,3 +1,0 @@
-# NRLIB
-
-Ciao
