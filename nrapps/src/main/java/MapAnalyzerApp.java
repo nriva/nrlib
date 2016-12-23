@@ -8,29 +8,56 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.LogManager;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+
 import it.nrsoft.nrlib.argparser.ArgParser;
 import it.nrsoft.nrlib.argparser.InvalidSwitchException;
+import it.nrsoft.nrlib.argparser.SwitchDefType;
 import it.nrsoft.nrlib.io.FileSystemWalker;
 import it.nrsoft.nrlib.time.StopWatch;
+import it.nrsoft.nrlib.util.Properties;
 import it.nrsoft.nrlib.wax.MapAnalyzer;
 
 public class MapAnalyzerApp {
+	
+	private static final LogManager logManager = LogManager.getLogManager();
 
-	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, InvalidSwitchException
+	public static void main(String[] args) throws Exception
 	{
 
+		logManager.readConfiguration(MapAnalyzerApp.class.getResourceAsStream("/jul.properties"));
+		
+//		Properties properties = new Properties();
+//		properties.load(MapAnalyzerApp.class.getResourceAsStream("/application.properties"));
+		
+		Properties properties = new Properties();
+		properties.addMulipleValuePropName("query");
+		properties.loadProperties(MapAnalyzerApp.class.getResourceAsStream("/application.properties"));
+		
+		properties.getMultipleValueProp("query");
+		
+		
 		String path="";
 		String outFile = null;
 		String errFile = null;
 		
 		ArgParser argparser = new ArgParser();
+		//argparser.setValueSep("=");
+		argparser.addSwitchChar('-');
+		argparser.addSwitchChar("--");
+		
+		argparser.addSwitchDef(new String[]{"p","pattern"}, SwitchDefType.stValued,"Pattern dei file da esaminare");
+		
 		
 		argparser.setMinNumArgs(1);
+		
+		System.out.println(argparser.usage());
+		
 		
 		argparser.parse(args);
 		
@@ -52,13 +79,33 @@ public class MapAnalyzerApp {
 			ferr = new PrintStream(new FileOutputStream(errFile));
 		
 		
-		fout.println("Esamino " + path);
-		fout.println("Scrivo risultato su " + outFile==null?"stdout":outFile);
-		fout.println("Scrivo errori su " + errFile==null?"stderr":errFile);
+		String pattern = "*.xml";
+		if(argparser.getSwitches().size()>0)
+			if(argparser.getSwitches().get("p")!=null)
+				pattern=argparser.getSwitches().get("p").getValues().get(0);
+		
+		fout.println("Esamino: " + path);
+		fout.println("Pattern: " + pattern);
+		fout.println("Scrivo risultato su: " + (outFile==null?"stdout":outFile));
+		fout.println("Scrivo errori su: " + (errFile==null?"stderr":errFile));
 		
 		fout.println();
 		
 		MapAnalyzer ma = new MapAnalyzer(fout,ferr);
+		
+		Map<String,String> queryData = properties.getMultipleValueProp("query");
+		
+		
+		if(queryData.get("type").equalsIgnoreCase("BOOLEAN"))
+		{
+			
+			ma.setBooleanQuery(queryData.get("text"), queryData.get("test"));
+			// Esegue una WHERE
+			//ma.setBooleanQuery("/page[@version='4.0']", "Versione 4");
+			// Esegue una GROUP BY		
+			//ma.setStringQuery("/page/@version",new String[]{"3.0","4.0"});
+		}
+		
 		FileSystemWalker fsw = new FileSystemWalker(ma);
 		
 		
@@ -66,33 +113,17 @@ public class MapAnalyzerApp {
 		
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
-		fsw.walk(path,"*.xml");
+		fsw.walk(path,pattern);
 		stopWatch.stop();
 		
-		
-		for(Entry<String, List<String>> entry : ma.getFiles().entrySet())
-		{
-			fout.println("File " + entry.getKey() + " # " + entry.getValue().size());
-		}
-		
-		fout.println();
-		
-		
-
-		
-		fout.println("Esaminati " + ma.getNumberOfFiles() + " file in " + stopWatch.getElapsedTimeFormatted());
-		fout.println();
-		
-		for(Entry<String, List<String>> entry : ma.getFiles().entrySet())
-		{
-			fout.println("File " + entry.getKey());
-			for(String filename : entry.getValue())
-				fout.println(filename);
-			fout.println();
-			fout.println();
-		}
+		MapAnalyzerResultWriter writer = (MapAnalyzerResultWriter)Class.forName( properties.getStringProp("mapanalyzerresultwriter.classname", "MapAnalyzerResultWriterSimple")).newInstance();
+		writer.writeResult(fout, ma, stopWatch);
 		
 		fout.close();
 	}
+	
+	
+
+
 
 }

@@ -13,51 +13,67 @@ import java.util.Map.Entry;
 *
 */
 public class Properties {
-
-
 	
-	public static String ErrorMessage="";
-	public static String PropFile="";
-	/**
-	 * 
-	 * @param ServerURL
-	 *            String IPaddress
-	 * @param EnvironmentPort
-	 *            String PortNumber
-	 * @return properties file for dbConnection
-	 * @throws IOException 
-	 */
-	public static java.util.Properties getProp(String inEnvironment) {
-		
-		java.util.Properties prop = new java.util.Properties();
-		PropFile = inEnvironment.trim().replace('.', '_').replace(':', '_')
-				+ ".properties";
-		
-		
-//		try {
-//
-			InputStream propConnStream = Properties.class.getResourceAsStream("/" + PropFile);
-		//InputStream propConnStream = Properties.class.getResourceAsStream("/connection.properties");
-			if (propConnStream != null) {
-				try {
-					prop.load(propConnStream);
-				} catch (IOException e) {
-					ErrorMessage = "Properties.getProp: " + e.getMessage();
-					e.printStackTrace();
-				}
-			} else {
-				ErrorMessage = "Properties.getProp: PropConnStream == null";
-
-			}
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		return prop;
+	private List<String> multipleValuePropNames = new ArrayList<String>(); 
+	
+	private java.util.Properties properties = null;
+	
+	public void addMulipleValuePropName(String name)
+	{
+		multipleValuePropNames.add(name);
 	}
 	
-	public static boolean getBooleanProp(java.util.Properties properties,String name)
+	public Map<String,String> getMultipleValueProp(String name)
+	{
+		
+		Map<String,String> map = new TreeMap<String,String>();
+		
+		
+		boolean found = false;
+		for(Object key : properties.keySet())
+		{
+			if(key.toString().startsWith(name))
+				found = true;
+		}
+		
+		if(!found)
+			return null;
+		
+		int id = 1;
+		found = false;
+		for(Object key : properties.keySet())
+		{
+			if(key.toString().startsWith(name + "." + String.valueOf(id)))
+				found = true;
+			
+			if(found)
+			{
+				String[] keyParts = key.toString().split("\\.");
+				
+				String value = properties.getProperty(key.toString());
+				map.put(keyParts[2], value );
+			}
+			
+		}		
+		
+		return map;
+		
+			
+		
+	}
+	
+	public void loadProperties(InputStream propConnStream) throws Exception {
+		
+		properties = new java.util.Properties();
+
+		if (propConnStream != null)
+			properties.load(propConnStream);
+		else
+			throw new Exception("Properties.getProp: PropConnStream == null");
+
+	}
+	
+	public boolean getBooleanProp(String name)
 	{
 		boolean value=false;
 		if(properties.containsKey(name) )
@@ -65,7 +81,7 @@ public class Properties {
 		return value;
 	}
 	
-	public static String getStringProp(java.util.Properties properties,String name)
+	public String getStringProp(String name)
 	{
 		String value="";
 		if(properties.containsKey(name) )
@@ -73,7 +89,7 @@ public class Properties {
 		return value;
 	}
 	
-	public static String getStringProp(java.util.Properties properties,String name,String defaultValue)
+	public String getStringProp(String name,String defaultValue)
 	{
 		String value=defaultValue;
 		if(properties.containsKey(name) )
@@ -81,7 +97,7 @@ public class Properties {
 		return value;
 	}
 	
-	public static String[] getStringArrayProp(java.util.Properties properties,String name, String separator)
+	public String[] getStringArrayProp(String name, String separator)
 	{
 		String[] value=new String[]{};
 		if(properties.containsKey(name) )
@@ -90,7 +106,7 @@ public class Properties {
 	}
 	
 	
-	public static Map<String,String> prefixSubset(String prefix, java.util.Properties properties)
+	public Map<String,String> prefixSubset(String prefix, java.util.Properties properties)
 	{
 		
 		Map<String,String> map = new TreeMap<String,String>();

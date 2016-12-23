@@ -45,8 +45,18 @@ public class ArgParser {
 	public List<String> getArguments() {
 		return arguments;
 	}
+	
+	// Costruttori di un Switch Simple
 
+	public SwitchDef addSwitchDef(String name)
+	{
+		return addSwitchDef(new String[]{name});
+	}
 
+	public SwitchDef addSwitchDef(String name,String alias)
+	{
+		return addSwitchDef(new String[]{name,alias});
+	}
 
 	public SwitchDef addSwitchDef(String[] names)
 	{
@@ -55,28 +65,73 @@ public class ArgParser {
 		
 	}
 	
+	public SwitchDef addSwitchDef(String name, SwitchDefType switchDefType)
+	{
+		return addSwitchDef(new String[]{name}, switchDefType);
+	}
+
+	
+	public SwitchDef addSwitchDef(String name,String alias, SwitchDefType switchDefType)
+	{
+		return addSwitchDef(new String[]{name,alias}, switchDefType);
+	}
+	
 	public SwitchDef addSwitchDef(String[] names, SwitchDefType switchDefType)
 	{
  
 		return addSwitchDef(names,switchDefType,false,"");
 	}
 	
+	public SwitchDef addSwitchDef(String name, SwitchDefType switchDefType, boolean multiValue)
+	{
+		return addSwitchDef(new String[]{name},switchDefType,multiValue,"");
+	}
+
+	public SwitchDef addSwitchDef(String name,String alias, SwitchDefType switchDefType, boolean multiValue)
+	{
+		return addSwitchDef(new String[]{name,alias},switchDefType,multiValue,"");
+	}
+
+	
 	public SwitchDef addSwitchDef(String[] names, SwitchDefType switchDefType, boolean multiValue)
 	{
 		return addSwitchDef(names,switchDefType,multiValue,"");
 	}
 	
+	
+	public SwitchDef addSwitchDef(String name,String alias,String description)
+	{
+		return addSwitchDef(new String[]{name,alias}, SwitchDefType.stSimple,false,description);
+	}
+
+	
 	public SwitchDef addSwitchDef(String[] names,String description)
 	{
-		
 		return addSwitchDef(names, SwitchDefType.stSimple,false,description);
-		
 	}
+	
+	public SwitchDef addSwitchDef(String name, String alias, SwitchDefType switchDefType,String description)
+	{
+ 
+		return addSwitchDef(new String[]{name,alias},switchDefType,false,description);
+	}
+	
 	
 	public SwitchDef addSwitchDef(String[] names, SwitchDefType switchDefType,String description)
 	{
  
 		return addSwitchDef(names,switchDefType,false,description);
+	}
+	
+	public SwitchDef addSwitchDef(String name, SwitchDefType switchDefType, boolean multiValue,String description)
+	{
+		return addSwitchDef(new String[]{name}, switchDefType, multiValue, description);
+	}
+
+	
+	public SwitchDef addSwitchDef(String name, String alias, SwitchDefType switchDefType, boolean multiValue,String description)
+	{
+		return addSwitchDef(new String[]{name,alias}, switchDefType, multiValue, description);
 	}
 	
 	public SwitchDef addSwitchDef(String[] names, SwitchDefType switchDefType, boolean multiValue,String description)
@@ -187,7 +242,7 @@ public class ArgParser {
 
 
 	/**
-	 * @return the switchChar
+	 * @return copia dei switchChar
 	 */
 	public List<String> getSwitchChars() {
 		

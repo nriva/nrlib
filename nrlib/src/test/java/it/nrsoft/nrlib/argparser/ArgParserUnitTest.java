@@ -28,9 +28,9 @@ public class ArgParserUnitTest extends TestCase {
 		
 		parser = new ArgParser();
 		
-		parser.getSwitchChars().add("-");
-		parser.getSwitchChars().add("--");
-		parser.getSwitchChars().add("/");
+		parser.addSwitchChar("-");
+		parser.addSwitchChar("--");
+		parser.addSwitchChar("/");
 		
 		// x � uno switch multivalore
 		parser.addSwitchDef(new String[] {"x","xxx"}, SwitchDefType.stValued,true,"Valued multivalue switch");

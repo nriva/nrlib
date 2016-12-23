@@ -5,20 +5,32 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import it.nrsoft.nrlib.io.FileSystemWalkerListener;
 
@@ -33,14 +45,50 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 	private Map<String,List<String>> files = new TreeMap<String,List<String>>(); 
 	
 	private int numberOfFiles = 0;
+	private DocumentBuilder builder;
+	private XPath xpath;
 	
-	public MapAnalyzer(PrintStream fout,PrintStream ferr)
+	public MapAnalyzer(PrintStream fout,PrintStream ferr) throws ParserConfigurationException
 	{
 		this.fout = fout;
 		this.ferr = ferr;
 		
 		files.put("err",new LinkedList<String>());
 		files.put("npg",new LinkedList<String>());
+		
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		builder = factory.newDocumentBuilder();
+		
+		
+		builder.setErrorHandler(new ErrorHandler() {
+
+			@Override
+			public void warning(SAXParseException exception) throws SAXException {
+				
+				logger.warning(exception.getMessage() + "\r\n" + exceptionToString(exception));
+			}
+
+			private String exceptionToString(SAXParseException exception) {
+				StringWriter sw = new StringWriter();
+				PrintWriter pw =new PrintWriter(sw); 
+				exception.printStackTrace(pw);
+				return pw.toString();
+			}
+
+			@Override
+			public void error(SAXParseException exception) throws SAXException {
+				logger.log( Level.SEVERE, exception.getMessage()+ "\r\n" + exceptionToString(exception));
+			}
+
+			@Override
+			public void fatalError(SAXParseException exception) throws SAXException {
+				logger.log( Level.SEVERE, exception.getMessage()+ "\r\n" + exceptionToString(exception));
+			}
+		});
+		
+		XPathFactory xPathfactory = XPathFactory.newInstance();
+		xpath = xPathfactory.newXPath();
+				
 	}
 	
 	public Map<String, List<String>> getFiles() {
@@ -51,13 +99,88 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 		return numberOfFiles;
 	}
 
-	public boolean check(String sNomeFile) throws ParserConfigurationException, SAXException, IOException
+	private String xpathexpression = "";
+	private QName xpathQueryType = XPathConstants.BOOLEAN;
+	private String[] values;
+	private String booleanCategory;
+	
+	public void setBooleanQuery(String query,String booleanCategory)
+	{
+		xpathexpression = query;
+		xpathQueryType = XPathConstants.BOOLEAN;
+		this.booleanCategory = booleanCategory;
+	}
+	
+	public void setStringQuery(String query, String[] values)
+	{
+		xpathexpression = query;
+		xpathQueryType = XPathConstants.STRING;
+		this.values = values;
+	}
+	
+	
+	
+	
+	public boolean check(String sNomeFile) throws Exception
 	{
 		
-		File fXmlFile = new File(sNomeFile);
-		
-		
 		numberOfFiles++;
+		
+		
+		return analyzeXpath(sNomeFile,xpathexpression);		
+	}
+	
+	private boolean analyzeXpath(String sNomeFile, String xpathExpr) throws Exception
+	{
+
+
+		
+		XPathExpression expr;
+		try {
+			expr = xpath.compile(xpathExpr);
+		} catch (XPathExpressionException e) {
+			throw new Exception(e);
+		}
+		Document doc = builder.parse(sNomeFile);
+		
+		NodeList nList = doc.getElementsByTagName("page");
+		if(nList.getLength()==0)
+		{
+			files.get("npg").add(sNomeFile);
+			return true;
+		}
+		
+		
+		
+		if(xpathQueryType.equals(XPathConstants.BOOLEAN)) {
+		 
+			Boolean ret = (Boolean)expr.evaluate(doc, xpathQueryType);
+			
+			if(ret) {
+				if(!files.containsKey(booleanCategory))
+					files.put(booleanCategory,new LinkedList<String>());
+				files.get(booleanCategory).add(sNomeFile);
+			}
+			return ret;
+		}
+		else if(xpathQueryType.equals(XPathConstants.STRING)) {
+			String ret = (String)expr.evaluate(doc, xpathQueryType);
+			
+			if(!files.containsKey(ret))
+				files.put(ret,new LinkedList<String>());
+			files.get(ret).add(sNomeFile);
+			
+			return true;
+		}
+		
+		return true;
+
+	}
+
+	private void analyze(String sNomeFile)
+			throws ParserConfigurationException, SAXException, IOException {
+		
+		File fXmlFile = new File(sNomeFile);
 		
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -95,10 +218,17 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 
 			}
 		}
-		return true;		
 	}
 	
+	
+	private String exceptionToString(Exception e) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw =new PrintWriter(sw); 
+		e.printStackTrace(pw);
+		return sw.toString();
+	}	
 
+	private static final Logger logger = Logger.getLogger(MapAnalyzer.class.getName());
 
 	@Override
 	public void visitFile(File file) {
@@ -110,9 +240,11 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 		try {
 			check(file.getAbsolutePath());
 		} catch (Exception e) {
-			ferr.println("File: " + file.getAbsolutePath());
-			files.get("err").add(file.getName());
-			e.printStackTrace(ferr);
+			
+			files.get("err").add(file.getAbsolutePath());
+			
+			logger.log(Level.SEVERE,"File: " + file.getAbsolutePath());
+			logger.log(Level.SEVERE, e.getMessage() + "\r\n" + exceptionToString(e));
 		}
 		
 	}
