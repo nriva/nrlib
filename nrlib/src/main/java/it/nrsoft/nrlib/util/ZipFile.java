@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-
-
-
 /**
  * Zip file wrapper
  * @author riva
@@ -52,8 +49,6 @@ public class ZipFile {
 			fis.close();
 		}
 		zos.close();
-
-
 	}
 	
 	

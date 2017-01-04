@@ -19,6 +19,7 @@ import it.nrsoft.nrlib.argparser.ArgParser;
 import it.nrsoft.nrlib.argparser.InvalidSwitchException;
 import it.nrsoft.nrlib.argparser.SwitchDefType;
 import it.nrsoft.nrlib.io.FileSystemWalker;
+import it.nrsoft.nrlib.io.FileSystemWalker2;
 import it.nrsoft.nrlib.time.StopWatch;
 import it.nrsoft.nrlib.util.Properties;
 import it.nrsoft.nrlib.wax.MapAnalyzer;
@@ -50,6 +51,7 @@ public class MapAnalyzerApp {
 		argparser.addSwitchChar("--");
 		
 		argparser.addSwitchDef(new String[]{"p","pattern"}, SwitchDefType.stValued,"Pattern dei file da esaminare");
+		argparser.addSwitchDef(new String[]{"v","verbose"}, SwitchDefType.stSimple,"Indica se deve essere verboso");
 		
 		
 		argparser.setMinNumArgs(1);
@@ -82,6 +84,8 @@ public class MapAnalyzerApp {
 			if(argparser.getSwitches().get("p")!=null)
 				pattern=argparser.getSwitches().get("p").getValues().get(0);
 		
+		boolean verbose = argparser.getSwitches().containsKey("v");
+		
 		fout.println("Esamino: " + path);
 		fout.println("Pattern: " + pattern);
 		fout.println("Scrivo risultato su: " + (outFile==null?"stdout":outFile));
@@ -109,15 +113,13 @@ public class MapAnalyzerApp {
 		FileSystemWalker fsw = new FileSystemWalker(ma);
 		
 		
-		fsw.getListeners().add(ma);
-		
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 		fsw.walk(path,pattern);
 		stopWatch.stop();
 		
 		MapAnalyzerResultWriter writer = (MapAnalyzerResultWriter)Class.forName( properties.getStringProp("mapanalyzerresultwriter.classname", "MapAnalyzerResultWriterSimple")).newInstance();
-		writer.writeResult(fout, ma, stopWatch);
+		writer.writeResult(fout, ma, stopWatch, verbose);
 		
 		fout.close();
 	}

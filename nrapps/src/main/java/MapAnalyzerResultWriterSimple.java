@@ -8,7 +8,7 @@ import it.nrsoft.nrlib.wax.MapAnalyzer;
 public class MapAnalyzerResultWriterSimple implements MapAnalyzerResultWriter {
 
 	@Override
-	public void writeResult(PrintStream fout, MapAnalyzer ma, StopWatch stopWatch) {
+	public void writeResult(PrintStream fout, MapAnalyzer ma, StopWatch stopWatch, boolean verbose) {
 		fout.println("Esaminati " + ma.getNumberOfFiles() + " file in " + stopWatch.getElapsedTimeFormatted());
 		fout.println();
 		
@@ -17,15 +17,18 @@ public class MapAnalyzerResultWriterSimple implements MapAnalyzerResultWriter {
 		{
 			fout.println("Categoria:\t" + entry.getKey() + "\t#\t" + entry.getValue().size());
 		}
-		fout.println();
+
 		
-		for(Entry<String, List<String>> entry : ma.getFiles().entrySet())
-		{
-			fout.println("Elenco della categoria: " + entry.getKey());
-			for(String filename : entry.getValue())
-				fout.println(filename);
-			fout.println();
-			fout.println();
+		if(verbose)  {
+			fout.println();		
+			for(Entry<String, List<String>> entry : ma.getFiles().entrySet())
+			{
+				fout.println("Elenco della categoria: " + entry.getKey());
+				for(String filename : entry.getValue())
+					fout.println(filename);
+				fout.println();
+				fout.println();
+			}
 		}
 	}	
 
