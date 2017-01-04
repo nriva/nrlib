@@ -14,7 +14,7 @@ import java.util.Map.Entry;
 */
 public class Properties {
 	
-	private List<String> multipleValuePropNames = new ArrayList<String>(); 
+	private List<String> multipleValuePropNames = new ArrayList<String>();
 	
 	private java.util.Properties properties = null;
 	
@@ -23,10 +23,12 @@ public class Properties {
 		multipleValuePropNames.add(name);
 	}
 	
-	public Map<String,String> getMultipleValueProp(String name)
+	
+	public List<Map<String,String>> getMultipleValueProp(String name)
 	{
 		
-		Map<String,String> map = new TreeMap<String,String>();
+		
+		List<Map<String,String>> maps = new LinkedList<Map<String,String>>();
 		
 		
 		boolean found = false;
@@ -39,27 +41,45 @@ public class Properties {
 		if(!found)
 			return null;
 		
-		int id = 1;
-		found = false;
+		Map<String,String> map = null;
+		
 		for(Object key : properties.keySet())
 		{
-			if(key.toString().startsWith(name + "." + String.valueOf(id)))
-				found = true;
-			
-			if(found)
+			if(key.toString().startsWith(name))
 			{
+				
 				String[] keyParts = key.toString().split("\\.");
+				
+				// 1, 2, 3, ...
+				int id = Integer.valueOf(keyParts[1]);
+				
+				try {
+					map = maps.get(id-1);
+				}
+				catch(IndexOutOfBoundsException e)
+				{
+					if(id>=maps.size())
+					{
+						map=null;
+						for(int i=maps.size();i<=id-1;i++)
+							maps.add(i,map);
+					}
+				}
+				if(map==null) {
+					map = new TreeMap<String,String>();
+					maps.set(id-1, map);
+				}
+				
 				
 				String value = properties.getProperty(key.toString());
 				map.put(keyParts[2], value );
 			}
+		}
 			
-		}		
-		
-		return map;
-		
 			
+
 		
+		return maps;
 	}
 	
 	public void loadProperties(InputStream propConnStream) throws Exception {

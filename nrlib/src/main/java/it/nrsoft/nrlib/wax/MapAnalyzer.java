@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 //	private Map<String,Integer> data = new TreeMap<String,Integer>();
 	
 	
-	private Map<String,List<String>> files = new TreeMap<String,List<String>>(); 
+	private Map<String,List<String>> groupMap = new TreeMap<String,List<String>>(); 
 	
 	private int numberOfFiles = 0;
 	private DocumentBuilder builder;
@@ -53,8 +54,8 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 		this.fout = fout;
 		this.ferr = ferr;
 		
-		files.put("err",new LinkedList<String>());
-		files.put("npg",new LinkedList<String>());
+		groupMap.put("err",new LinkedList<String>());
+		groupMap.put("npg",new LinkedList<String>());
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		builder = factory.newDocumentBuilder();
@@ -92,89 +93,104 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 	}
 	
 	public Map<String, List<String>> getFiles() {
-		return files;
+		return groupMap;
 	}
 
 	public int getNumberOfFiles() {
 		return numberOfFiles;
 	}
 
-	private String xpathexpression = "";
-	private QName xpathQueryType = XPathConstants.BOOLEAN;
+	
 	private String[] values;
-	private String booleanCategory;
-	
-	public void setBooleanQuery(String query,String booleanCategory)
-	{
-		xpathexpression = query;
-		xpathQueryType = XPathConstants.BOOLEAN;
-		this.booleanCategory = booleanCategory;
-	}
-	
-	public void setStringQuery(String query, String[] values)
-	{
-		xpathexpression = query;
-		xpathQueryType = XPathConstants.STRING;
-		this.values = values;
-	}
-	
-	
-	
-	
-	public boolean check(String sNomeFile) throws Exception
-	{
-		
-		numberOfFiles++;
-		
-		
-		return analyzeXpath(sNomeFile,xpathexpression);		
-	}
-	
-	private boolean analyzeXpath(String sNomeFile, String xpathExpr) throws Exception
-	{
 
-
+	
+	private static class QueryExpression
+	{
+		public String elseGroup;
+		public QueryExpression(XPathExpression expression, String targetGroup, String elseGroup, QName xpathQueryType) {
+			super();
+			this.expression = expression;
+			this.targetGroup = targetGroup;
+			this.elseGroup = elseGroup;
+			this.xpathQueryType = xpathQueryType;
+		}
+		public XPathExpression expression;
+		public String targetGroup;
+		public QName xpathQueryType = XPathConstants.BOOLEAN;
+	}
+	
+	private List<QueryExpression> expressions = new LinkedList<QueryExpression>();
+	
+	public void addBooleanQuery(String query, String targetGroup, String elseGroup) throws Exception
+	{
 		
-		XPathExpression expr;
 		try {
-			expr = xpath.compile(xpathExpr);
+			expressions.add( new QueryExpression(xpath.compile(query),targetGroup,elseGroup,XPathConstants.BOOLEAN));
 		} catch (XPathExpressionException e) {
 			throw new Exception(e);
-		}
+		}		
+	}
+	
+//	public void setStringQuery(String query, String[] values) throws Exception
+//	{
+//		xpathQueryType = XPathConstants.STRING;
+//		this.values = values;
+//		
+//		try {
+//			expr = xpath.compile(query);
+//		} catch (XPathExpressionException e) {
+//			throw new Exception(e);
+//		}			
+//	}
+	
+	
+	
+	
+	public void check(String sNomeFile) throws Exception
+	{
+		numberOfFiles++;
+
 		Document doc = builder.parse(sNomeFile);
 		
 		NodeList nList = doc.getElementsByTagName("page");
 		if(nList.getLength()==0)
 		{
-			files.get("npg").add(sNomeFile);
-			return true;
+			groupMap.get("npg").add(sNomeFile);
+			return;
 		}
 		
-		
-		
-		if(xpathQueryType.equals(XPathConstants.BOOLEAN)) {
-		 
-			Boolean ret = (Boolean)expr.evaluate(doc, xpathQueryType);
-			
-			if(ret) {
-				if(!files.containsKey(booleanCategory))
-					files.put(booleanCategory,new LinkedList<String>());
-				files.get(booleanCategory).add(sNomeFile);
-			}
-			return ret;
-		}
-		else if(xpathQueryType.equals(XPathConstants.STRING)) {
-			String ret = (String)expr.evaluate(doc, xpathQueryType);
-			
-			if(!files.containsKey(ret))
-				files.put(ret,new LinkedList<String>());
-			files.get(ret).add(sNomeFile);
-			
-			return true;
-		}
-		
-		return true;
 
+		for(QueryExpression queryExp : expressions) {
+		
+			if(queryExp.xpathQueryType.equals(XPathConstants.BOOLEAN)) {
+			 
+				Boolean ret = (Boolean)queryExp.expression.evaluate(doc, queryExp.xpathQueryType);
+				
+				if(ret) {
+					if(!groupMap.containsKey(queryExp.targetGroup))
+						groupMap.put(queryExp.targetGroup,new LinkedList<String>());
+					groupMap.get(queryExp.targetGroup).add(sNomeFile);
+				}
+				else
+				{
+					if(!groupMap.containsKey(queryExp.elseGroup))
+						groupMap.put(queryExp.elseGroup,new LinkedList<String>());
+					groupMap.get(queryExp.elseGroup).add(sNomeFile);
+					
+				}
+			}
+			else if(queryExp.xpathQueryType.equals(XPathConstants.STRING)) {
+				String ret = (String)queryExp.expression.evaluate(doc, queryExp.xpathQueryType);
+				
+				if(Arrays.binarySearch(values, ret)<=0)
+				{				
+					if(!groupMap.containsKey(ret))
+						groupMap.put(ret,new LinkedList<String>());
+					groupMap.get(ret).add(sNomeFile);
+				}
+			}
+		}
+		
 	}
 
 	private void analyze(String sNomeFile)
@@ -195,7 +211,7 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 		NodeList nList = doc.getElementsByTagName("page");
 		if(nList.getLength()==0)
 		{
-			files.get("npg").add(sNomeFile);
+			groupMap.get("npg").add(sNomeFile);
 //			fos.println("No tag page!!!");
 		}
 
@@ -212,9 +228,9 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 					version = "3.0";
 //				fos.println("version : " + version);
 				
-				if(!files.containsKey(version))
-					files.put(version,new LinkedList<String>());
-				files.get(version).add(fXmlFile.getName());
+				if(!groupMap.containsKey(version))
+					groupMap.put(version,new LinkedList<String>());
+				groupMap.get(version).add(fXmlFile.getName());
 
 			}
 		}
@@ -241,11 +257,13 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 			check(file.getAbsolutePath());
 		} catch (Exception e) {
 			
-			files.get("err").add(file.getAbsolutePath());
+			groupMap.get("err").add(file.getAbsolutePath());
 			
 			logger.log(Level.SEVERE,"File: " + file.getAbsolutePath());
 			logger.log(Level.SEVERE, e.getMessage() + "\r\n" + exceptionToString(e));
 		}
 		
 	}
+
+
 }

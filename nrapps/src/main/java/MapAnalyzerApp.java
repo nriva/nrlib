@@ -38,9 +38,7 @@ public class MapAnalyzerApp {
 		Properties properties = new Properties();
 		properties.addMulipleValuePropName("query");
 		properties.loadProperties(MapAnalyzerApp.class.getResourceAsStream("/application.properties"));
-		
-		properties.getMultipleValueProp("query");
-		
+
 		
 		String path="";
 		String outFile = null;
@@ -93,18 +91,20 @@ public class MapAnalyzerApp {
 		
 		MapAnalyzer ma = new MapAnalyzer(fout,ferr);
 		
-		Map<String,String> queryData = properties.getMultipleValueProp("query");
+		List<Map<String,String>> queryData = properties.getMultipleValueProp("query");
 		
 		
-		if(queryData.get("type").equalsIgnoreCase("BOOLEAN"))
-		{
-			
-			ma.setBooleanQuery(queryData.get("text"), queryData.get("test"));
-			// Esegue una WHERE
-			//ma.setBooleanQuery("/page[@version='4.0']", "Versione 4");
-			// Esegue una GROUP BY		
-			//ma.setStringQuery("/page/@version",new String[]{"3.0","4.0"});
-		}
+		for(Map<String,String> query : queryData)
+		
+			if(query.get("type").equalsIgnoreCase("BOOLEAN"))
+			{
+				
+				ma.addBooleanQuery(query.get("test"), query.get("group"), query.get("elsegroup"));
+				// Esegue una WHERE
+				//ma.setBooleanQuery("/page[@version='4.0']", "Versione 4");
+				// Esegue una GROUP BY		
+				//ma.setStringQuery("/page/@version",new String[]{"3.0","4.0"});
+			}
 		
 		FileSystemWalker fsw = new FileSystemWalker(ma);
 		
