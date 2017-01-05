@@ -34,6 +34,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import it.nrsoft.nrlib.io.FileSystemWalkerListener;
+import it.nrsoft.nrlib.util.Exceptions;
 
 public class MapAnalyzer implements FileSystemWalkerListener {
 	
@@ -66,24 +67,19 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 			@Override
 			public void warning(SAXParseException exception) throws SAXException {
 				
-				logger.warning(exception.getMessage() + "\r\n" + exceptionToString(exception));
+				logger.warning(exception.getMessage() + "\r\n" + Exceptions.exceptionToString(exception));
 			}
 
-			private String exceptionToString(SAXParseException exception) {
-				StringWriter sw = new StringWriter();
-				PrintWriter pw =new PrintWriter(sw); 
-				exception.printStackTrace(pw);
-				return pw.toString();
-			}
+
 
 			@Override
 			public void error(SAXParseException exception) throws SAXException {
-				logger.log( Level.SEVERE, exception.getMessage()+ "\r\n" + exceptionToString(exception));
+				logger.log( Level.SEVERE, exception.getMessage()+ "\r\n" + Exceptions.exceptionToString(exception));
 			}
 
 			@Override
 			public void fatalError(SAXParseException exception) throws SAXException {
-				logger.log( Level.SEVERE, exception.getMessage()+ "\r\n" + exceptionToString(exception));
+				logger.log( Level.SEVERE, exception.getMessage()+ "\r\n" + Exceptions.exceptionToString(exception));
 			}
 		});
 		
@@ -101,12 +97,17 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 	}
 
 	
-	private String[] values;
+	
 
 	
 	private static class QueryExpression
 	{
 		public String elseGroup;
+		private String[] values=null;
+		public XPathExpression expression;
+		public String targetGroup;
+		public QName xpathQueryType = XPathConstants.BOOLEAN;
+
 		public QueryExpression(XPathExpression expression, String targetGroup, String elseGroup, QName xpathQueryType) {
 			super();
 			this.expression = expression;
@@ -114,9 +115,17 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 			this.elseGroup = elseGroup;
 			this.xpathQueryType = xpathQueryType;
 		}
-		public XPathExpression expression;
-		public String targetGroup;
-		public QName xpathQueryType = XPathConstants.BOOLEAN;
+		public QueryExpression(XPathExpression expression, String[] values, QName xpathQueryType) {
+			this.expression = expression;
+			this.xpathQueryType = xpathQueryType;
+			this.values = values;
+		}
+		
+		public QueryExpression(XPathExpression expression, QName xpathQueryType) {
+			this.expression = expression;
+			this.xpathQueryType = xpathQueryType;
+		}
+		
 	}
 	
 	private List<QueryExpression> expressions = new LinkedList<QueryExpression>();
@@ -131,17 +140,26 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 		}		
 	}
 	
-//	public void setStringQuery(String query, String[] values) throws Exception
-//	{
-//		xpathQueryType = XPathConstants.STRING;
-//		this.values = values;
-//		
-//		try {
-//			expr = xpath.compile(query);
-//		} catch (XPathExpressionException e) {
-//			throw new Exception(e);
-//		}			
-//	}
+	
+	public void addStringQuery(String query) throws Exception
+	{
+		try {
+			expressions.add( new QueryExpression(xpath.compile(query),XPathConstants.STRING));
+		} catch (XPathExpressionException e) {
+			throw new Exception(e);
+		}			
+		
+	}
+	
+	public void addStringQuery(String query,String[] values) throws Exception
+	{
+
+		try {
+			expressions.add( new QueryExpression(xpath.compile(query),values,XPathConstants.STRING));
+		} catch (XPathExpressionException e) {
+			throw new Exception(e);
+		}			
+	}
 	
 	
 	
@@ -181,8 +199,10 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 			}
 			else if(queryExp.xpathQueryType.equals(XPathConstants.STRING)) {
 				String ret = (String)queryExp.expression.evaluate(doc, queryExp.xpathQueryType);
-				
-				if(Arrays.binarySearch(values, ret)<=0)
+				int pos = -1;
+				if(queryExp.values!=null)
+					pos = Arrays.binarySearch(queryExp.values, ret);
+				if(queryExp.values==null || pos >=0 )
 				{				
 					if(!groupMap.containsKey(ret))
 						groupMap.put(ret,new LinkedList<String>());
@@ -192,57 +212,8 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 		}
 		
 	}
-
-	private void analyze(String sNomeFile)
-			throws ParserConfigurationException, SAXException, IOException {
-		
-		File fXmlFile = new File(sNomeFile);
-		
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		
-		Document doc = dBuilder.parse(fXmlFile);
-				
-		//optional, but recommended
-		//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
-		doc.getDocumentElement().normalize();
-
-				
-		NodeList nList = doc.getElementsByTagName("page");
-		if(nList.getLength()==0)
-		{
-			groupMap.get("npg").add(sNomeFile);
-//			fos.println("No tag page!!!");
-		}
-
-		for (int temp = 0; temp < nList.getLength(); temp++) {
-
-			Node nNode = nList.item(temp);
-					
-			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
-				Element eElement = (Element) nNode;
-				
-				String version = eElement.getAttribute("version");
-				if(version==null || "".equals(version))
-					version = "3.0";
-//				fos.println("version : " + version);
-				
-				if(!groupMap.containsKey(version))
-					groupMap.put(version,new LinkedList<String>());
-				groupMap.get(version).add(fXmlFile.getName());
-
-			}
-		}
-	}
 	
-	
-	private String exceptionToString(Exception e) {
-		StringWriter sw = new StringWriter();
-		PrintWriter pw =new PrintWriter(sw); 
-		e.printStackTrace(pw);
-		return sw.toString();
-	}	
+
 
 	private static final Logger logger = Logger.getLogger(MapAnalyzer.class.getName());
 
@@ -259,8 +230,8 @@ public class MapAnalyzer implements FileSystemWalkerListener {
 			
 			groupMap.get("err").add(file.getAbsolutePath());
 			
-			logger.log(Level.SEVERE,"File: " + file.getAbsolutePath());
-			logger.log(Level.SEVERE, e.getMessage() + "\r\n" + exceptionToString(e));
+//			logger.log(Level.SEVERE,"File: " + file.getAbsolutePath());
+//			logger.log(Level.SEVERE, e.getMessage() + "\r\n" + Exceptions.exceptionToString(e));
 		}
 		
 	}

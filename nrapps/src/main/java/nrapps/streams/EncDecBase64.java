@@ -1,4 +1,4 @@
-package com.cadit.cadapps.streams;
+package nrapps.streams;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

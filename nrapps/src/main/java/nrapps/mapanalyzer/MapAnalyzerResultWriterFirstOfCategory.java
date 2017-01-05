@@ -1,3 +1,5 @@
+package nrapps.mapanalyzer;
+
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Map.Entry;
@@ -5,7 +7,7 @@ import java.util.Map.Entry;
 import it.nrsoft.nrlib.time.StopWatch;
 import it.nrsoft.nrlib.wax.MapAnalyzer;
 
-public class MapAnalyzerResultWriterSimple implements MapAnalyzerResultWriter {
+public class MapAnalyzerResultWriterFirstOfCategory implements MapAnalyzerResultWriter {
 
 	@Override
 	public void writeResult(PrintStream fout, MapAnalyzer ma, StopWatch stopWatch, boolean verbose) {
@@ -17,19 +19,21 @@ public class MapAnalyzerResultWriterSimple implements MapAnalyzerResultWriter {
 		{
 			fout.println("Categoria:\t" + entry.getKey() + "\t#\t" + entry.getValue().size());
 		}
-
 		
 		if(verbose)  {
 			fout.println();		
 			for(Entry<String, List<String>> entry : ma.getFiles().entrySet())
 			{
 				fout.println("Elenco della categoria: " + entry.getKey());
-				for(String filename : entry.getValue())
+				if(entry.getValue()!=null && entry.getValue().size()>0) {
+					String filename = entry.getValue().get(0);
 					fout.println(filename);
-				fout.println();
-				fout.println();
+					fout.println();
+					fout.println();
+				}
 			}
-		}
-	}	
+		}		
+
+	}
 
 }

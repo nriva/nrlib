@@ -1,4 +1,4 @@
-
+package nrapps.mapanalyzer;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -108,6 +108,12 @@ public class MapAnalyzerApp {
 				//ma.setBooleanQuery("/page[@version='4.0']", "Versione 4");
 				// Esegue una GROUP BY		
 				//ma.setStringQuery("/page/@version",new String[]{"3.0","4.0"});
+			}
+			else if(query.get("type").equalsIgnoreCase("STRING")) {
+				if(query.containsKey("values"))
+					ma.addStringQuery(query.get("test"), query.get("values").split(","));
+				else
+					ma.addStringQuery(query.get("test"));
 			}
 		
 		FileSystemWalker fsw = new FileSystemWalker(ma);

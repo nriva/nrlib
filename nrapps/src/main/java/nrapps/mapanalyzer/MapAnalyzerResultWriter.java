@@ -1,5 +1,6 @@
-import java.io.PrintStream;
+package nrapps.mapanalyzer;
 
+import java.io.PrintStream;
 import it.nrsoft.nrlib.time.StopWatch;
 import it.nrsoft.nrlib.wax.MapAnalyzer;
 
