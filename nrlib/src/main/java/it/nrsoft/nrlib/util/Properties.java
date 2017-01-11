@@ -101,6 +101,15 @@ public class Properties {
 		return value;
 	}
 	
+	public boolean getBooleanProp(String name, boolean defaultValue) {
+
+		boolean value = defaultValue;
+		if(properties.containsKey(name))
+			value= "true".equalsIgnoreCase(properties.getProperty(name,"false")); 
+		return value;
+	}	
+	
+	
 	public String getStringProp(String name)
 	{
 		String value="";
@@ -138,7 +147,15 @@ public class Properties {
 		
 		return map;
 		
-	}	
+	}
+
+
+	public boolean containsProp(String propName) {
+	
+		return properties.containsKey(propName);
+	}
+
+
 	
 	
 	

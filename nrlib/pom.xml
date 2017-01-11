@@ -62,12 +62,13 @@
   <artifactId>org.eclipse.swt.win32.win32.x86_64</artifactId>
   <version>4.3</version>
 </dependency>    
-
+ 
 <dependency>
   <groupId>org.apache.logging.log4j</groupId>
   <artifactId>log4j-1.2-api</artifactId>
   <version>2.1</version>
 </dependency>
+
 
 <dependency>
   <groupId>commons-daemon</groupId>
@@ -91,6 +92,12 @@
   <groupId>net.sourceforge.jexcelapi</groupId>
   <artifactId>jxl</artifactId>
   <version>2.6.12</version>
+  <exclusions>
+  	<exclusion>
+  		<artifactId>log4j</artifactId>
+  		<groupId>log4j</groupId>
+  	</exclusion>
+  </exclusions>
 </dependency>
 
 <dependency>

@@ -5,14 +5,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
 
 import it.nrsoft.nrlib.io.FileSystemWalkerListener;
 
 
 public class WaxJspAnalyzer implements FileSystemWalkerListener {
+	
+	   private static final Logger logger = 
+		       Logger.getLogger(WaxJspAnalyzer.class);
 	
 
 	@Override
@@ -56,11 +60,9 @@ public class WaxJspAnalyzer implements FileSystemWalkerListener {
 			}
 		
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("File not found", e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("I/O Error", e);
 		}
 		finally
 		{
@@ -68,8 +70,7 @@ public class WaxJspAnalyzer implements FileSystemWalkerListener {
 				try {
 					reader.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.warn("Error in closing file", e);
 				}
 		}
 
