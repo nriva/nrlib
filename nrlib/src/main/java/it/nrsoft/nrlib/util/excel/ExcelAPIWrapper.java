@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import jxl.write.WritableCellFormat;
-
 public abstract class ExcelAPIWrapper {
 	
 	private static final String ODD_MARK = "@odd";
