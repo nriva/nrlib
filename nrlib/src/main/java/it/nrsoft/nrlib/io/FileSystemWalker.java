@@ -62,8 +62,10 @@ public class FileSystemWalker {
 				walkFolder(child);
 			else if(regex!=null)
 			{
-				if(child.getName().matches(regex))
+				if(child.getName().toLowerCase().matches(regex))
 					visit(child);
+				else
+					System.out.println("Rejected " + child.getName());
 			}
 			else
 				visit(child);
