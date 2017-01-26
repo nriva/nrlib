@@ -85,13 +85,14 @@ public abstract class RecursiveWalker
         ok = walkNode(node);
         if (ok)
         {
-            String[] children = getChildrenElements(node);
-            for (String child : children)
-            {
-                if (ok && (currentLevel < toLevel || toLevel == -1))
-                    ok = walk(child, currentLevel + 1, toLevel);
-                if (!ok) break;
-            }
+            String[] children = getChildrenNodes(node);
+            if(children!=null)
+	            for (String child : children)
+	            {
+	                if (ok && (currentLevel < toLevel || toLevel == -1))
+	                    ok = walk(child, currentLevel + 1, toLevel);
+	                if (!ok) break;
+	            }
         }
         return ok;
     }

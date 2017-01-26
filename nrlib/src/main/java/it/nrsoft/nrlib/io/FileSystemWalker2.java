@@ -28,6 +28,11 @@ public class FileSystemWalker2 extends RecursiveWalkerSubject {
 	@Override
 	protected String[] getChildrenElements(String nodeName) {
 		File file = new File(nodeName);
+		
+		File[] files = file.listFiles();
+		if(files==null)
+			return null;
+		
 		List<File> children = new ArrayList<File>(file.listFiles().length);
 		for(File child : file.listFiles())
 			if(!child.isDirectory())
@@ -37,6 +42,7 @@ public class FileSystemWalker2 extends RecursiveWalkerSubject {
 		int i=0;
 		for(File child:children)
 			names[i++] = child.getAbsolutePath();
-		return names;	}
+		return names;	
+	}
 
 }
