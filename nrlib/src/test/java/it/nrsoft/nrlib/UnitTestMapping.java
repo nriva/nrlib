@@ -55,6 +55,7 @@ public class UnitTestMapping {
 	}
 	
 
+	@Test
 	public final void testSysprop() throws IOException, ScriptException, javax.script.ScriptException
 	{
 		MappingRule rule = parser.parse("x=@sys(user.name)");
@@ -70,6 +71,7 @@ public class UnitTestMapping {
 	}	
 	
 
+	@Test
 	public final void testConst() throws IOException, ScriptException, javax.script.ScriptException
 	{
 		MappingRule rule = parser.parse("x=@const(pippo)");
@@ -86,6 +88,7 @@ public class UnitTestMapping {
 	
 	
 
+	@Test
 	public final void testId() throws IOException, ScriptException, javax.script.ScriptException
 	{
 		MappingRule rule = parser.parse("x=@id");
@@ -104,6 +107,7 @@ public class UnitTestMapping {
 	}
 	
 
+	@Test
 	public final void testNow() throws IOException, ScriptException, javax.script.ScriptException
 	{
 		MappingRule rule = parser.parse("x=@now");
@@ -123,7 +127,7 @@ public class UnitTestMapping {
 	}	
 	
 	
-
+	@Test
 	public final void testScriptFile() throws IOException, ScriptException, javax.script.ScriptException
 	{
 		MappingRule rule = parser.parse("x=@script(test)");
@@ -138,11 +142,11 @@ public class UnitTestMapping {
 	}	
 	
 	
-
+	@Test
 	public final void testCall() throws IOException, ScriptException, javax.script.ScriptException
 	{
 		MappingRulesEvaluator evaluator = new MappingRulesEvaluator();
-		evaluator.load(new BufferedReader(new FileReader("test.mapping")));
+		evaluator.load(new BufferedReader(new InputStreamReader( UnitTestMapping.class.getResourceAsStream("/test.mapping"))));
 		
 		input.clear();
 		output.clear();
@@ -156,8 +160,8 @@ public class UnitTestMapping {
 		
 		evaluator.evaluateAll(input, output);
 		
-		System.out.println(output.get("x"));
-		System.out.println(output.get("y"));
+		assertEquals(1, output.get("x"));
+		assertEquals(7, output.get("y"));
 		
 	}		
 	
