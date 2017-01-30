@@ -11,10 +11,10 @@ public class UnitTestMath {
 	
 	@Test
 	public void test1()
-	{	// CXCIX
-		assertEquals("CIC", (new RomanNumeral(99)).toString());
-//		assertEquals("MIM", RomanNotation.intToRoman(1999));
-//		assertEquals("MXM", RomanNotation.intToRoman(1990));
+	{	 
+		assertEquals("XCIX", (new RomanNumeral(99)).toString());
+		assertEquals("MCMXCIX", RomanNotation.intToRoman(1999));
+		assertEquals("MCMXC", RomanNotation.intToRoman(1990));
 		
 		assertEquals(199, (new RomanNumeral("CIC")).toInt());
 	}

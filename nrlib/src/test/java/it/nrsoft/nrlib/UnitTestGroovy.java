@@ -24,9 +24,7 @@ public class UnitTestGroovy {
 	
 	@Test
 	public final void testFile() throws IOException
-	
 	{
-		
 		ScriptEngine se = new ScriptEngineGroovy();
 		
 		InputStreamReader reader = new InputStreamReader( UnitTestGroovy.class.getResourceAsStream("/prova.groovy"));
@@ -36,7 +34,8 @@ public class UnitTestGroovy {
 	
 
 	@Test
-	public final void test() {
+	public final void test() 
+	{
 		ScriptEngineGroovy se = new ScriptEngineGroovy();
 		
 		Map<String,Object> environ = new HashMap<String,Object>();
@@ -67,11 +66,14 @@ public class UnitTestGroovy {
 		assertEquals("Value check/3.2", 2, a.get(1).intValue());
 		assertEquals("Value check/3.3", 3, a.get(2).intValue());
 		
-		se.execute("def name='World'; println 'Hello $name!'");			// non funziona
-		se.execute("def name='World'; println \"Hello $name!\"");		// funziona 	--> ' vs "
+		environ.put("s", "");
+		se.execute("def name='World'; s='Hello $name!'");			// non funziona
+		o=environ.get("s");
+		assertNotEquals("test/1", "Hello World!",o);
 		
-		
-		
+		se.execute("def name='World'; s= \"Hello $name!\"");		// funziona 	--> ' vs "
+		o=environ.get("s");
+		assertEquals("test/2", "Hello World!",o.toString());
 		
 		
 	}

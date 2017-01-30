@@ -20,11 +20,11 @@ public class UnitTestFileFilterScript extends UnitTestFileFilter {
 	/**
 	 * @see UnitTestFileFilter#setUp()
 	 */
-	@Before
+	//@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		
-		BufferedWriter writer = new BufferedWriter(new FileWriter("prova.groovy"));
+		BufferedWriter writer = new BufferedWriter(new FileWriter("provafilt.groovy"));
 		writer.write("_2 = \"X\" + _2; return true");
 		writer.close();		
 	}
@@ -42,7 +42,7 @@ public class UnitTestFileFilterScript extends UnitTestFileFilter {
 		RowWriter writer = new RowWriterFixedLenTextFile("filter.out");
 		
 		FileFilter filter = new FileFilter(reader, writer);
-		filter.setAction(FileFilterActionSet.parse("script(prova)"));
+		filter.setAction(FileFilterActionSet.parse("script(provafilt)"));
 		
 		filter.perform();
 		
