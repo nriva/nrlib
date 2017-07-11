@@ -9,6 +9,12 @@
 
   <name>nrapps</name>
   <url>http://maven.apache.org</url>
+  
+     <parent>
+	<groupId>nrlib</groupId>
+   <artifactId>nrlibparent</artifactId>
+  <version>1.0.0</version>
+    </parent>  
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
