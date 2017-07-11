@@ -1,5 +1,14 @@
 package it.nrsoft.nrlib;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import it.nrsoft.nrlib.io.FileSystemPathValidator;
@@ -13,6 +22,15 @@ import it.nrsoft.nrlib.util.RecursiveWalkerSubjectNotifyData;
 public class UnitTestRecursiveWalker {
 	
 
+	@Before
+	public final void setup() throws IOException
+	{
+		File dir = new File("/ciao");
+		dir.mkdirs();
+		File file = new File("/ciao/prova.txt");
+		dir.createNewFile();
+	}
+	
 
 	@Test
 	public final void test1()
@@ -30,7 +48,16 @@ public class UnitTestRecursiveWalker {
 			}
 		});
 		
-		walker.walk("c:\\Lavoro\\js");
+		walker.walk("/ciao");
 	}
+	
+	@After
+	public final void teardown()
+	{
+		File dir = new File("/ciao");
+		dir.delete();
+		File file = new File("/ciao/prova.txt");
+		file.delete();
+	}	
 
 }
