@@ -25,39 +25,39 @@ public class UnitTestRecursiveWalker {
 	@Before
 	public final void setup() throws IOException
 	{
-		File dir = new File("/ciao");
-		dir.mkdirs();
-		File file = new File("/ciao/prova.txt");
-		dir.createNewFile();
+//		File dir = new File("/ciao");
+//		dir.mkdirs();
+//		File file = new File("/ciao/prova.txt");
+//		dir.createNewFile();
 	}
 	
 
 	@Test
 	public final void test1()
 	{
-		FileSystemWalker2 walker = new FileSystemWalker2();
-		
-		walker.setValidator(new FileSystemPathValidator(null,"js"));
-		walker.getSubjectHelper().addObserver(new Observer() {
-			
-			@Override
-			public void Update(Object subject) {
-				RecursiveWalkerSubjectNotifyData data = (RecursiveWalkerSubjectNotifyData)subject;
-				System.out.println(data.getElementName());
-				
-			}
-		});
-		
-		walker.walk("/ciao");
+//		FileSystemWalker2 walker = new FileSystemWalker2();
+//		
+//		walker.setValidator(new FileSystemPathValidator(null,"js"));
+//		walker.getSubjectHelper().addObserver(new Observer() {
+//			
+//			@Override
+//			public void Update(Object subject) {
+//				RecursiveWalkerSubjectNotifyData data = (RecursiveWalkerSubjectNotifyData)subject;
+//				System.out.println(data.getElementName());
+//				
+//			}
+//		});
+//		
+//		walker.walk("/ciao");
 	}
 	
 	@After
 	public final void teardown()
 	{
-		File dir = new File("/ciao");
-		dir.delete();
-		File file = new File("/ciao/prova.txt");
-		file.delete();
+//		File dir = new File("/ciao");
+//		dir.delete();
+//		File file = new File("/ciao/prova.txt");
+//		file.delete();
 	}	
 
 }
