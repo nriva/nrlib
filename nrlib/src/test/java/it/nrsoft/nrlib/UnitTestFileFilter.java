@@ -2,6 +2,7 @@ package it.nrsoft.nrlib;
 
 import java.io.*;
 
+import org.junit.After;
 import org.junit.Before;
 
 
@@ -24,7 +25,21 @@ public class UnitTestFileFilter {
 		writer.close();
 		
 	}
+	
+	@After
+	public void tearDown()
+	{
+		File file = new File("filter.in");
+		if(file.exists()) file.delete();
+		
+		file = new File("filter.out");
+		if(file.exists()) file.delete();
+		
+		file = new File("prova.groovy");
+		if(file.exists()) file.delete();
 
-
-
+		
+	}
+	
+	
 }

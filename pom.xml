@@ -9,6 +9,6 @@
 	  	<packaging>pom</packaging>
   <modules>
 		<module>/nrlib</module>
-		<module>/nrapp</module>
+		<module>/nrapps</module>
 	</modules>
 </project>

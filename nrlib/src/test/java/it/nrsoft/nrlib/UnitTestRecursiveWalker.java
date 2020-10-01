@@ -1,5 +1,10 @@
 package it.nrsoft.nrlib;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import it.nrsoft.nrlib.io.FileSystemPathValidator;
@@ -11,6 +16,16 @@ import it.nrsoft.nrlib.util.RecursiveWalkerElementValidatorDummy;
 import it.nrsoft.nrlib.util.RecursiveWalkerSubjectNotifyData;
 
 public class UnitTestRecursiveWalker {
+	
+	@Before
+	public final void before() throws IOException
+	{
+		File dir = new File("testfsw/scripts");
+		dir.mkdirs();
+		
+		File js = new File("testfsw/scripts/test.js");
+		js.createNewFile();
+	}
 	
 
 
@@ -30,7 +45,15 @@ public class UnitTestRecursiveWalker {
 			}
 		});
 		
-		walker.walk("c:\\Lavoro\\js");
+		walker.walk("testfsw/scripts");
+	}
+	
+	@After
+	public void after() throws IOException
+	{
+		File file = new File("testfsw");
+		TestUtils.deleteDirectoryRecursion(file);
+
 	}
 
 }
