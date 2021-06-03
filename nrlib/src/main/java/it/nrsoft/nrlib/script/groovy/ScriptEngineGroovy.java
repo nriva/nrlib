@@ -7,6 +7,7 @@ import it.nrsoft.nrlib.script.ScriptEngine;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Map.Entry;
 
 
@@ -34,7 +35,7 @@ public class ScriptEngineGroovy extends ScriptEngine {
 
 	@Override
 	protected String loadScript(String scriptId) throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(scriptId + ".groovy"));
+		BufferedReader reader = new BufferedReader(new InputStreamReader( System.class.getResourceAsStream("/" + scriptId + ".groovy")));
 		String myscript="";
 		String line = reader.readLine();
 		

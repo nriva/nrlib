@@ -91,8 +91,24 @@ public class RomanNotation
 		r = r.replace("VIV","IX").replace("LXL","XC").replace("DCD","CM");
 		return r;
 	}
+	
+	public static String intToRoman(int num)
+	{
+		/*Saving Roman equivalent of the thousand, hundred, ten and units place of a decimal number*/
+		String thou[]={"","M","MM","MMM"};
+		String hund[]={"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"};
+		String ten[]={"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"};
+		String unit[]={"","I","II","III","IV","V","VI","VII","VIII","IX"};
+		/*Finding the digits in the thousand, hundred, ten and units place*/
+		int th=num/1000;
+		int h=(num/100)%10;
+		int t=(num/10)%10;
+		int u=num%10;		
+		
+		return thou[th]+hund[h]+ten[t]+unit[u];
+	}
 
-    public static String intToRoman(int integer)
+/*    public static String intToRoman(int integer)
 	{
 		// Trasforma un numero in notazione romana	
 		int value = 0;
@@ -154,5 +170,5 @@ public class RomanNotation
 		}
 		return s;
 	}
-	
+	*/
 }

@@ -4,10 +4,16 @@
 
   <groupId>it.nrsoft</groupId>
   <artifactId>nrlib</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <name>nrlib</name>
+  
+     <parent>
+	<groupId>nrlib</groupId>
+   <artifactId>nrlibparent</artifactId>
+  <version>1.0.0</version>
+    </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -118,6 +124,24 @@
   <version>10.12.1.1</version>
   <scope>test</scope>
 </dependency>
+
+<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <version>1.4.193</version>
+    <scope>test</scope>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
+<dependency>
+    <groupId>org.xerial</groupId>
+    <artifactId>sqlite-jdbc</artifactId>
+    <version>3.19.3</version>
+    <scope>test</scope>
+</dependency>
+
+
 
   </dependencies>
 </project>

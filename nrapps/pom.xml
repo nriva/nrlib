@@ -4,11 +4,17 @@
 
   <groupId>it.nrsoft</groupId>
   <artifactId>nrapps</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
 
   <name>nrapps</name>
   <url>http://maven.apache.org</url>
+  
+     <parent>
+	<groupId>nrlib</groupId>
+   <artifactId>nrlibparent</artifactId>
+  <version>1.0.0</version>
+    </parent>  
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,7 +37,7 @@
 	<dependency>
 	  <groupId>it.nrsoft</groupId>
 	  <artifactId>nrlib</artifactId>
-	  <version>0.0.1-SNAPSHOT</version>
+	  <version>1.0.0</version>
 	</dependency>
 	
 	
