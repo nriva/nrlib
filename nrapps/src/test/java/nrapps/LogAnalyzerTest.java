@@ -1,4 +1,4 @@
-package com.cadit.cadapps;
+package nrapps;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import nrpass.fileanalyzer.FileAnalyzerApp;
+import nrapps.fileanalyzer.FileAnalyzerApp;
 
 public class LogAnalyzerTest {
 

@@ -1,4 +1,4 @@
-package nrpass.fileanalyzer;
+package nrapps.fileanalyzer;
 
 public class FileAnalyzerFactory {
 	

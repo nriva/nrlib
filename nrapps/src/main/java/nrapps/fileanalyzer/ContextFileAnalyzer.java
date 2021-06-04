@@ -1,4 +1,4 @@
-package nrpass.fileanalyzer;
+package nrapps.fileanalyzer;
 
 import java.io.File;
 import java.io.IOException;

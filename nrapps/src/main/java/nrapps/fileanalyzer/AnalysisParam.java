@@ -1,4 +1,4 @@
-package nrpass.fileanalyzer;
+package nrapps.fileanalyzer;
 
 import java.util.LinkedList;
 import java.util.List;

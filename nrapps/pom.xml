@@ -8,6 +8,13 @@
   <packaging>jar</packaging>
 
   <name>nrapps</name>
+  
+       <parent>
+	<groupId>nrlib</groupId>
+   <artifactId>nrlibparent</artifactId>
+  <version>1.0.0</version>
+    </parent>
+  
   <url>http://maven.apache.org</url>
 
   <properties>
