@@ -1,0 +1,39 @@
+loganalyzer_input.txt@2
+-- context1
+>> pippo:100
+++ context1post
+++ context2post
+
+loganalyzer_input.txt@14
+-- context3b
+-- context4b
+>> pippo:101
+++ context1postb
+++ context2postb
+
+loganalyzer_input.txt@23
+-- context3c
+-- context4c
+>> pippo:102
+++ context1postc
+++ context1
+
+loganalyzer_input2.txt@2
+-- context1postc
+-- context1
+>> pippo:100
+++ context1post
+++ context2post
+
+loganalyzer_input2.txt@14
+-- context3b
+-- context4b
+>> pippo:101
+++ context1postb
+++ context2postb
+
+loganalyzer_input2.txt@23
+-- context3c
+-- context4c
+>> pippo:102
+++ context1postc
