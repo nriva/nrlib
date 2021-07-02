@@ -4,62 +4,97 @@ package it.nrsoft.nrlib;
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
 
+import it.nrsoft.nrlib.script.CachedScriptProvider;
 import it.nrsoft.nrlib.script.ScriptEngine;
+import it.nrsoft.nrlib.script.ScriptEngineEnviron;
+import it.nrsoft.nrlib.script.ScriptEngineEnvironSimple;
+import it.nrsoft.nrlib.script.ScriptProvider;
+import it.nrsoft.nrlib.script.ScriptTextLoader;
 import it.nrsoft.nrlib.script.groovy.ScriptEngineGroovy;
-
-
 
 public class UnitTestGroovy {
 	
 	
+
 	@Test
 	public final void testFile() throws IOException
 	
 	{
 		
-		ScriptEngine se = new ScriptEngineGroovy();
+		ScriptProvider provider = new CachedScriptProvider();
+		ScriptEngine se = new ScriptEngineGroovy(provider );
 		
-		InputStreamReader reader = new InputStreamReader( UnitTestGroovy.class.getResourceAsStream("/prova.groovy"));
+		BufferedReader reader = new BufferedReader(new InputStreamReader( UnitTestGroovy.class.getResourceAsStream("/prova.groovy")));
 		
-		se.execute(reader);
+		
+		ScriptTextLoader loader = new ScriptTextLoader();
+		provider.setScriptText("script1", loader.loadScript(reader));
+		
+		ScriptEngineEnviron environ = new ScriptEngineEnvironSimple();
+		Object o= se.execute("script1", environ );
+		
+		
+		assertTrue("return type", o instanceof Boolean);
+		
+		Boolean b = (Boolean)o;
+		
+		assertTrue("return value", b.booleanValue());
+		
+		
+		
+
 	}
+
+
 	
+
 
 	@Test
 	public final void test() {
-		ScriptEngineGroovy se = new ScriptEngineGroovy();
+		ScriptProvider provider = new CachedScriptProvider();
 		
-		Map<String,Object> environ = new HashMap<String,Object>();
+		provider.setScriptText("script1", "return 'pippo'");
+		provider.setScriptText("script2", "z=x+y");
+		provider.setScriptText("script3", "l=[1,2,3]");
 		
-		se.setEnviron(environ);
+		provider.setScriptText("script4", "def name='World'; return 'Hello $name!'");   // Errato
+		provider.setScriptText("script5", "def name='World'; return \"Hello $name!\"");	// Corretto
+		
+		ScriptEngineGroovy se = new ScriptEngineGroovy(provider );
+		
+		ScriptEngineEnviron environ = new ScriptEngineEnvironSimple();
 		
 		Object o;
-		o=se.execute("return 'pippo'");
+		o=se.execute("script1", environ);
 		
 		assertTrue("Type check/1", o instanceof String);
 		assertEquals("Value check/1", "pippo", o);
 		
-		environ.put("x", 0);
-		se.execute("x=10");
-		o=environ.get("x");
+		environ.put("x", 1);
+		environ.put("y", 2);
+		environ.put("z", 0);
+		se.execute("script2", environ);
+		o=environ.get("z");
 		
 		assertTrue("Type check/2", o instanceof Integer);
-		assertEquals("Value check/2", 10, o);
+		assertEquals("Value check/2", 3, o);
 		
 		environ.put("l", null);
-		se.execute("l=[1,2,3]");
+		se.execute("script3", environ);
 		o=environ.get("l");
-		
 		assertTrue("Type check/3", o instanceof ArrayList<?>);
 		ArrayList<Integer> a = (ArrayList<Integer>)o;
 		assertEquals("Length check/3", 3, a.size());
@@ -67,13 +102,11 @@ public class UnitTestGroovy {
 		assertEquals("Value check/3.2", 2, a.get(1).intValue());
 		assertEquals("Value check/3.3", 3, a.get(2).intValue());
 		
-		se.execute("def name='World'; println 'Hello $name!'");			// non funziona
-		se.execute("def name='World'; println \"Hello $name!\"");		// funziona 	--> ' vs "
+		String t1 = "Hello $name!";		// Errato
+		String t2 = "Hello World!";		// Corretto
 		
-		
-		
-		
-		
+		assertEquals(t1, se.execute("script4", environ).toString());
+		assertEquals(t2, se.execute("script5", environ).toString());
 	}
 
 }

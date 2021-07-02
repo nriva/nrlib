@@ -36,7 +36,7 @@ public class UnitTestFileFilterScript extends UnitTestFileFilter {
 			,"4234567890XABCD1234567890"
 			};	
 	
-	@Test
+	// @Test
 	public final void test() throws IOException {
 		RowReader reader = new RowReaderFixedLenTextFile(new int[] {10,5,10}, "filter.in");
 		RowWriter writer = new RowWriterFixedLenTextFile("filter.out");

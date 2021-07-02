@@ -19,6 +19,10 @@ public class FileFilterActionScript extends FileFilterActionDecorator {
 		
 		
 		FileFilterActionResult result = super.perform(context, row);
+		
+		
+		/*
+		
 		if(!result.equals(FileFilterActionResult.SKIP))
 		{
 		
@@ -35,6 +39,7 @@ public class FileFilterActionScript extends FileFilterActionDecorator {
 					FileFilterActionResult.OK:
 					FileFilterActionResult.SKIP;
 		}
+		*/
 		return result;
 	}
 

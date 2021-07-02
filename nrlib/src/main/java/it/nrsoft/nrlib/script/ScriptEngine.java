@@ -1,5 +1,6 @@
 package it.nrsoft.nrlib.script;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,61 +11,51 @@ import javax.script.*;
 
 public abstract class ScriptEngine {
 	
-	protected Map<String,Object> environ = new HashMap<String,Object>();
+	// protected Map<String,String> scriptCache = new HashMap<String,String>();
 	
-	protected Map<String,String> scriptCache = new HashMap<String,String>();
 	
-	public Map<String, Object> getEnviron() {
-		return environ;
-	}
-
-	public void setEnviron(Map<String, Object> environ) {
-		this.environ = environ;
-	}
+	protected ScriptProvider scriptProvider;
+	
 
 	
-	public Object execute(String script)
-	{
-		syncEnvToEngine();
-		Object o = invoke(script);
-		syncEnvFromEngine();
-		return o;
-	}
+	protected abstract void syncEnvToEngine(ScriptEngineEnviron environ);
 	
-	public Object executeByName(String scriptId)
-	{
-		String script = null;
+	protected abstract void syncEnvFromEngine(ScriptEngineEnviron environ);
+	
+	protected abstract Object invoke(String scriptText, ScriptEngineEnviron environ);
+
+	
+	/*
+	protected String loadScript(String scriptId) throws IOException {
+		BufferedReader reader = new BufferedReader(new FileReader(scriptId + ".groovy"));
+		String myscript="";
+		String line = reader.readLine();
 		
-		if(!scriptCache.containsKey(scriptId))
-			try {
-				script = loadScript(scriptId);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		Object o = execute(script);
-		return o;
-	}
-	
-	protected abstract void syncEnvToEngine();
-	
-	protected abstract void syncEnvFromEngine();
-	
-	protected abstract Object invoke(String script);
-
-	protected abstract String loadScript(String scriptId) throws IOException ;
-
-	public Object execute(Reader reader) throws IOException {
-		
-		StringWriter writer = new StringWriter();
-		int c = reader.read();
-		while(c!=-1)
+		while(line!=null)
 		{
-			writer.write(c);
-			c=reader.read();
+			myscript += line + " ";
+			line = reader.readLine();
 		}
-		
 		reader.close();
-		return execute(writer.toString());
-
+		scriptCache.put(scriptId,myscript);
+		return myscript;
 	}
+	*/
+	
+	
+	public Object execute(String scriptId, ScriptEngineEnviron environ)
+	{
+		String scriptText = scriptProvider.getScriptText(scriptId);
+		
+		Object o = invoke(scriptText, environ);
+		return o;
+	}
+
+	public ScriptEngine(ScriptProvider scriptProvider) {
+		super();
+		this.scriptProvider = scriptProvider;
+	}
+	
+	
+
 }

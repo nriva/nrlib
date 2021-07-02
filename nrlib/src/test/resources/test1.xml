@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<bean id="t1" class="it.nrsoft.nrlib.process.transform.IdentityTransformation">
+   		<constructor-arg index="0" value="in1"/>
+	</bean>
+	
+	<bean id="t2" class="it.nrsoft.nrlib.process.transform.IdentityTransformation">
+   		<constructor-arg index="0" value="in2"/>
+	</bean>
+	
+	<util:map id="transformations" map-class="java.util.HashMap" 
+		key-type="java.lang.String" value-type="it.nrsoft.nrlib.process.transform.Transformation"> 
+	  <entry key="out1"> <ref bean="t1"/> </entry>
+	  <entry key="out2"> <ref bean="t2"/></entry> 
+	</util:map>
+	
+	
+	<bean id="step1" class="it.nrsoft.nrlib.process.transform.TransformationStep">
+   		<constructor-arg index="0" value="step1"/>
+    	<constructor-arg index="1"><null/></constructor-arg>
+    	<property name="transformations"> <ref bean="transformations"/> </property>
+	</bean>		
+
+    <!-- more bean definitions for services go here -->
+
+</beans>

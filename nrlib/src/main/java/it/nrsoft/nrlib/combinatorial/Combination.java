@@ -62,12 +62,13 @@ public abstract class Combination extends CombinatorialBase
 		for(int i=0;i<len;i++)
 			work[i] = workSave[i];
 
-		if(len<wordLen)
+		if(len<wordLen) {
 			for(j=0;j<symbols.length;j++)
 			{
 				work[len] = symbols[j];
 				generate(work,len+1,subset(symbols,symbols[j]));
 			}
+		}
 		else
 		{
 			generated(newWord);

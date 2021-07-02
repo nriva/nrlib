@@ -37,6 +37,7 @@
                    <configuration>
                     <includes>
                         <include>**/UnitTest*.*</include>
+                        <include>**/*Test.*</include>
                     </includes>
                 </configuration>
   </plugin>
@@ -47,8 +48,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.5.1</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>  
   
@@ -74,6 +75,25 @@
   <artifactId>log4j-1.2-api</artifactId>
   <version>2.1</version>
 </dependency>
+
+	<!-- API:  -->
+	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-api</artifactId>
+	    <version>1.7.30</version>
+	</dependency>
+	
+	<!-- BINDING: --> 
+	<dependency>
+	    <groupId>ch.qos.logback</groupId>
+	    <artifactId>logback-core</artifactId>
+	    <version>1.2.3</version>
+	</dependency>
+	<dependency>
+	    <groupId>ch.qos.logback</groupId>
+	    <artifactId>logback-classic</artifactId>
+	    <version>1.2.3</version>
+	</dependency>
 
 
 <dependency>
@@ -125,6 +145,14 @@
   <scope>test</scope>
 </dependency>
 
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-context-support</artifactId>
+	    <version>5.3.8</version>
+	</dependency>
+
+
 <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
 <dependency>
     <groupId>com.h2database</groupId>
@@ -140,6 +168,13 @@
     <version>3.19.3</version>
     <scope>test</scope>
 </dependency>
+
+	<dependency>
+	    <groupId>commons-io</groupId>
+	    <artifactId>commons-io</artifactId>
+	    <version>2.8.0</version>
+	    <scope>test</scope>
+	</dependency>
 
 
 

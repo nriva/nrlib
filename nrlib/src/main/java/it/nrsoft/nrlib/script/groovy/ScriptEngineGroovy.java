@@ -3,6 +3,8 @@ package it.nrsoft.nrlib.script.groovy;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import it.nrsoft.nrlib.script.ScriptEngine;
+import it.nrsoft.nrlib.script.ScriptEngineEnviron;
+import it.nrsoft.nrlib.script.ScriptProvider;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,10 +14,19 @@ import java.util.Map.Entry;
 
 public class ScriptEngineGroovy extends ScriptEngine {
 	
+	public ScriptEngineGroovy(ScriptProvider scriptProvider) {
+		super(scriptProvider);
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+
+
 	Binding binding = new Binding();
 
 	@Override
-	protected void syncEnvToEngine() {
+	protected void syncEnvToEngine(ScriptEngineEnviron environ) {
 
 		for(Entry<String,Object> entry : environ.entrySet())
 		{
@@ -24,7 +35,7 @@ public class ScriptEngineGroovy extends ScriptEngine {
 	}
 
 	@Override
-	protected void syncEnvFromEngine() {
+	protected void syncEnvFromEngine(ScriptEngineEnviron environ) {
 		
 		for(String key: environ.keySet())
 		{
@@ -32,28 +43,21 @@ public class ScriptEngineGroovy extends ScriptEngine {
 		}
 	}
 
+
+
+
+
 	@Override
-	protected String loadScript(String scriptId) throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(scriptId + ".groovy"));
-		String myscript="";
-		String line = reader.readLine();
+	public Object invoke(String scriptText, ScriptEngineEnviron environ) {
 		
-		while(line!=null)
-		{
-			myscript += line + " ";
-			line = reader.readLine();
-		}
-		reader.close();
-		scriptCache.put(scriptId,myscript);
-		return myscript;
-	}
-
-
-
-	@Override
-	public Object invoke(String script) {
+		syncEnvToEngine(environ);
+		
 		GroovyShell shell = new GroovyShell(binding);
-		return shell.evaluate(script);
+		
+		Object result = shell.evaluate(scriptText);
+		
+		syncEnvFromEngine(environ);
+		return result;
 	}
 
 }

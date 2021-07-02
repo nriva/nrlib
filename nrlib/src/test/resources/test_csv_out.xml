@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+        
+        
+        
+	<util:map id="initPropMap" map-class="java.util.HashMap" 
+		key-type="java.lang.String" 
+		value-type="java.lang.Object"> 
+	  <entry key="file.name" value="${java.io.tmpdir}/pippoSpring.txt"/>
+	  <entry key="file.csv.header" value="true"/>
+	  
+	</util:map>
+        
+
+	<bean id="initProperies" class="it.nrsoft.nrlib.process.SimpleInitialProperties">
+   		<property name="properties"> <ref bean="initPropMap"/> </property>
+	</bean>
+	
+	
+	<util:map id="dataRowValues" map-class="java.util.HashMap" 
+		key-type="java.lang.String" 
+		value-type="java.lang.Object"> 
+	  <entry key="COLONNA1" value="VALORE1"/>
+	  <entry key="COLONNA2" value="VALORE2"/> 
+	</util:map>
+	
+	<bean id="row" class="it.nrsoft.nrlib.process.SimpleDataRow">
+		<property name="rowValues"> <ref bean="dataRowValues"/> </property>
+	</bean>
+	
+	
+	<util:list id="rows" list-class="java.util.LinkedList" value-type="it.nrsoft.nrlib.process.DataRow">
+	  <ref bean="row"></ref>
+	</util:list>
+	
+	<bean id="data" class="it.nrsoft.nrlib.process.ProcessData">
+		<constructor-arg index="0" ref="initProperies"/>
+		<property name="dataRows"> <ref bean="rows"/> </property>
+	</bean>
+	
+
+	
+	
+	
+	<bean id="step1" class="it.nrsoft.nrlib.process.file.FileStepCsvOut">
+   		<constructor-arg index="0" value="OutCsv"/>
+    	<constructor-arg index="1"> <ref bean="initProperies"/></constructor-arg>
+    	<property name="dataIn"> <ref bean="data"/> </property>
+	</bean>		
+
+    <!-- more bean definitions for services go here -->
+
+</beans>
