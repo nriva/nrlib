@@ -11,6 +11,19 @@ public abstract class DataRow implements Map<String, Object>  {
 		this.clear();
 		this.putAll(values);
 	}
+
+	@Override
+	public String toString() {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for (Entry<String, Object> entry : this.entrySet()) {
+		    sb.append(entry.getKey() + "=" + entry.getValue() + ",");
+		}		
+		
+		return sb.toString();
+		
+	}
 	
 
 

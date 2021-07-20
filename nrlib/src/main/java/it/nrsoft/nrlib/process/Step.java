@@ -2,6 +2,9 @@ package it.nrsoft.nrlib.process;
 
 public abstract class Step implements Runnable {
 	
+	
+	public static final String PROP_FIELDMAP = "fieldmap";
+
 	private StepResult result = null;
 	
 	protected String name ="";
@@ -19,7 +22,7 @@ public abstract class Step implements Runnable {
 		
 		if(properties!=null) {
 		
-			String fieldMapSource = properties.getProperty("fieldmap");
+			String fieldMapSource = properties.getProperty(PROP_FIELDMAP);
 			
 			if(fieldMapSource!=null) {
 				if(fieldMapSource.length()>0)

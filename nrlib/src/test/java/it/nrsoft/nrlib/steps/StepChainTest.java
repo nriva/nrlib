@@ -104,7 +104,7 @@ public class StepChainTest {
 		initProperties2.addProperty(SqlStep.PROP_SQL_CONNECTION_PASSWORD, "");
 		initProperties2.addProperty(SqlStep.PROP_SQL_DRIVER, "org.apache.derby.jdbc.EmbeddedDriver");
 		initProperties2.addProperty(SqlStepSelect.PROP_SQL_SELECT_QUERY, "SELECT * FROM ACCOUNT");
-		initProperties2.addProperty("fieldmap", "ID:ID1,NAME:NAME1");
+		initProperties2.addProperty(Step.PROP_FIELDMAP, "ID:ID1,NAME:NAME1");
 		
 		
 		
@@ -149,7 +149,7 @@ public class StepChainTest {
 		initProperties1.addProperty(SqlStep.PROP_SQL_CONNECTION_PASSWORD, "");
 		initProperties1.addProperty(SqlStep.PROP_SQL_DRIVER, "org.apache.derby.jdbc.EmbeddedDriver");
 		initProperties1.addProperty(SqlStepSelect.PROP_SQL_SELECT_QUERY, "SELECT * FROM ACCOUNT");
-		initProperties1.addProperty("fieldmap", "ID:ID1,NAME:NAME1");
+		initProperties1.addProperty(Step.PROP_FIELDMAP, "ID:ID1,NAME:NAME1");
 		
 		
 		step = new SqlStepSelect("sql1", initProperties1);
