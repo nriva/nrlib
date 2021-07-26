@@ -4,7 +4,6 @@ import java.util.Map;
 
 public interface InitialProperties {
 	
-	
 	String getProperty(String name, String defaultValue);
 	
 	String getProperty(String name);

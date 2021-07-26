@@ -27,14 +27,17 @@ public class GroovyTransformation extends Transformation {
 	public Object apply(Map<String, Object> variables,DataRow row) {
 		
 		ScriptEngineEnviron environ = new ScriptEngineEnvironSimple();
-		
+
+		/*
 		for(Entry<String, Object> entry: row.entrySet()) {
 			environ.put(entry.getKey(), entry.getValue());	
 		}
+		*/
+		environ.put("row", row);
 		
 		
 		for(Entry<String, Object> entry: variables.entrySet()) {
-			environ.put("_" + entry.getKey(), entry.getValue());	
+			environ.put(entry.getKey(), entry.getValue());	
 		}
 
 		
@@ -42,8 +45,8 @@ public class GroovyTransformation extends Transformation {
 		
 		
 		for(Entry<String, Object> entry: environ.entrySet()) {
-			if(entry.getKey().startsWith("_"))
-				variables.put(entry.getKey().substring(1), entry.getValue());	
+			if( variables.containsKey(entry.getKey()))
+				variables.put(entry.getKey(), entry.getValue());	
 		}
 		
 		

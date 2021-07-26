@@ -1,2 +1,11 @@
 /.project
 **/.settings
+nrapps/.classpath
+nrapps/.gitignore
+nrapps/.project
+nrlib/.classpath
+nrlib/.gitignore
+nrlib/.project
+nrlib/derby.log
+nrlib/derbyDB/
+nrlib/filter.out

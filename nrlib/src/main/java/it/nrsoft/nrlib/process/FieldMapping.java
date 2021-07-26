@@ -12,6 +12,11 @@ import java.util.Map;
 public class FieldMapping {
 	
 	
+	/**
+	 * Example of syntax:<BR/>
+	 *   SRC1:DEST1, SRC2: DEST2
+	 * @param mapAsString mapping of fields in string format
+	 */
 	public FieldMapping(String mapAsString) {
 		
 		String[] maps = mapAsString.split(",");

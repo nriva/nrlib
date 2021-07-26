@@ -40,6 +40,7 @@ public class MappingRule {
 	static {
 		macros.put("@now", new MappingMacroNow());
 		macros.put("@id", new MappingMacroUniqueId());
+		macros.put("@guid", new MappingMacroGUID());
 		macros.put("@user", new MappingMacroUsername());
 		macros.put("@concat", new MappingMacroConcat());
 		macros.put("@script", new MappingMacroGroovy());
