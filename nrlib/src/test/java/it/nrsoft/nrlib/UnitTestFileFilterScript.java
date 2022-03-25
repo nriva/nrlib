@@ -11,8 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.junit.Before;
-import org.junit.Test;
-
 import it.nrsoft.nrlib.filter.*;
 
 public class UnitTestFileFilterScript extends UnitTestFileFilter {

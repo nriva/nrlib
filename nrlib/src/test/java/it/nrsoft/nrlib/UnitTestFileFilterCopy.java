@@ -10,10 +10,8 @@ import org.junit.Test;
 import it.nrsoft.nrlib.filter.FileFilter;
 import it.nrsoft.nrlib.filter.FileFilterActionSet;
 import it.nrsoft.nrlib.filter.RowReader;
-import it.nrsoft.nrlib.filter.RowReaderFixedLen;
 import it.nrsoft.nrlib.filter.RowReaderFixedLenTextFile;
 import it.nrsoft.nrlib.filter.RowWriter;
-import it.nrsoft.nrlib.filter.RowWriterFixedLen;
 import it.nrsoft.nrlib.filter.RowWriterFixedLenTextFile;
 
 

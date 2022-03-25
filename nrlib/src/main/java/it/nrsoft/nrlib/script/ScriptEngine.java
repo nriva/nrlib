@@ -1,14 +1,5 @@
 package it.nrsoft.nrlib.script;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.util.*;
-import javax.script.*;
-
 public abstract class ScriptEngine {
 	
 	// protected Map<String,String> scriptCache = new HashMap<String,String>();

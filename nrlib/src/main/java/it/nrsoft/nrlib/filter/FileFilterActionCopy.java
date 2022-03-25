@@ -1,7 +1,5 @@
 package it.nrsoft.nrlib.filter;
 
-import java.util.Map;
-
 
 public class FileFilterActionCopy extends FileFilterActionDecorator {
 	

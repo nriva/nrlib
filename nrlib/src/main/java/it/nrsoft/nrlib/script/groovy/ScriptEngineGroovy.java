@@ -6,9 +6,6 @@ import it.nrsoft.nrlib.script.ScriptEngine;
 import it.nrsoft.nrlib.script.ScriptEngineEnviron;
 import it.nrsoft.nrlib.script.ScriptProvider;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Map.Entry;
 
 

@@ -2,7 +2,6 @@ package it.nrsoft.nrlib.mapping.connectors;
 
 import java.io.*;
 import java.math.*;
-import java.text.*;
 import java.util.Map;
 
 import org.apache.log4j.Logger;

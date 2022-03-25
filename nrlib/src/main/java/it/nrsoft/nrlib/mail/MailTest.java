@@ -3,8 +3,6 @@ package it.nrsoft.nrlib.mail;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
-import it.nrsoft.nrlib.mail.Mail;
-
 
 public class MailTest {
 	

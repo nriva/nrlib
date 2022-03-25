@@ -1,8 +1,5 @@
 package it.nrsoft.nrlib.filter;
 
-import it.nrsoft.nrlib.script.ScriptEngine;
-import it.nrsoft.nrlib.script.groovy.ScriptEngineGroovy;
-
 public class FileFilterActionScript extends FileFilterActionDecorator {
 
 	private String scriptId;

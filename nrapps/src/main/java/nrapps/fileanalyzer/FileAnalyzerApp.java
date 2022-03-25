@@ -1,19 +1,10 @@
 package nrapps.fileanalyzer;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.Reader;
-import java.io.Writer;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import it.nrsoft.nrlib.argparser.ArgParser;
 import it.nrsoft.nrlib.argparser.InvalidSwitchException;
 import it.nrsoft.nrlib.argparser.Switch;

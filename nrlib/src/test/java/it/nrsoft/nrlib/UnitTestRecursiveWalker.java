@@ -10,9 +10,6 @@ import org.junit.Test;
 import it.nrsoft.nrlib.io.FileSystemPathValidator;
 import it.nrsoft.nrlib.io.FileSystemWalker2;
 import it.nrsoft.nrlib.pattern.Observer;
-import it.nrsoft.nrlib.util.RecursiveWalkerElementValidator;
-import it.nrsoft.nrlib.util.RecursiveWalkerElementValidatorDecorator;
-import it.nrsoft.nrlib.util.RecursiveWalkerElementValidatorDummy;
 import it.nrsoft.nrlib.util.RecursiveWalkerSubjectNotifyData;
 
 public class UnitTestRecursiveWalker {

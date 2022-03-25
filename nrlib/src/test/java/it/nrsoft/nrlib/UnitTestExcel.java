@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.Calendar;
 
-import jxl.CellView;
 import jxl.format.Colour;
 import jxl.format.UnderlineStyle;
 import jxl.write.DateFormats;
@@ -12,7 +11,6 @@ import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WriteException;
 
-import org.apache.log4j.BasicConfigurator;
 import org.junit.Test;
 
 import it.nrsoft.nrlib.util.ExcelFile;

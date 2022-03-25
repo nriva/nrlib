@@ -2,15 +2,7 @@ package it.nrsoft.nrlib.argparser;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import it.nrsoft.nrlib.argparser.ArgParser;
-import it.nrsoft.nrlib.argparser.InvalidSwitchException;
-import it.nrsoft.nrlib.argparser.Switch;
-import it.nrsoft.nrlib.argparser.SwitchDefType;
 import junit.framework.TestCase;
-
-import static junit.framework.Assert.*;
 
 
 

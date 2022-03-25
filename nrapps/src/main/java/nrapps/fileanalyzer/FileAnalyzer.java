@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.Writer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

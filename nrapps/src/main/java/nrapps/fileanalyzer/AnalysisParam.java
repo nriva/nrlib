@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import it.nrsoft.nrlib.argparser.Switch;
-import it.nrsoft.nrlib.argparser.SwitchDefType;
 
 public class AnalysisParam {
 	

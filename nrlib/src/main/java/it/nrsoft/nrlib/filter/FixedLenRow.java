@@ -1,8 +1,6 @@
 package it.nrsoft.nrlib.filter;
 
 import java.util.*;
-import java.util.Map.Entry;
-
 import it.nrsoft.nrlib.util.StringUtil;
 
 public class FixedLenRow extends Row {

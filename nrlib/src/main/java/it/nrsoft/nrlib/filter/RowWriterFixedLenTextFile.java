@@ -1,11 +1,9 @@
 package it.nrsoft.nrlib.filter;
 
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
 
 public class RowWriterFixedLenTextFile extends RowWriterFixedLen {
 	

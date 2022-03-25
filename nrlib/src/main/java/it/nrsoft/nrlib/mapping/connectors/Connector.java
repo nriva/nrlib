@@ -1,6 +1,5 @@
 package it.nrsoft.nrlib.mapping.connectors;
 
-import java.math.*;
 import java.text.*;
 import java.util.*;
 

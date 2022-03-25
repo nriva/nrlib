@@ -1,7 +1,6 @@
 package it.nrsoft.nrlib.filter;
 
 import java.io.*;
-import java.util.*;
 
 public class FileFilter {
 	

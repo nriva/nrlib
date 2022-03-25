@@ -1,25 +1,13 @@
 package nrapps.mapanalyzer;
 
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.LogManager;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
-
 import it.nrsoft.nrlib.argparser.ArgParser;
 import it.nrsoft.nrlib.argparser.InvalidSwitchException;
 import it.nrsoft.nrlib.argparser.SwitchDefType;
 import it.nrsoft.nrlib.io.FileSystemWalker;
-import it.nrsoft.nrlib.io.FileSystemWalker2;
 import it.nrsoft.nrlib.time.StopWatch;
 import it.nrsoft.nrlib.util.Properties;
 import it.nrsoft.nrlib.wax.MapAnalyzer;
