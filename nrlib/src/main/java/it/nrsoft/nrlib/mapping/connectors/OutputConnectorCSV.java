@@ -4,13 +4,14 @@ import java.io.*;
 import java.math.*;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import it.nrsoft.nrlib.util.StringUtil;
 
 public class OutputConnectorCSV extends ConnectorCSV implements OutputConnector {
 	
-	static Logger logger = Logger.getLogger(OutputConnectorCSV.class.getName());
+	static Logger logger = LogManager.getLogger(OutputConnectorCSV.class.getName());
 	
 	BufferedWriter writer;
 	

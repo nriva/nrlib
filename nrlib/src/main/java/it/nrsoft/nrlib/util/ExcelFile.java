@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import jxl.CellView;
 import jxl.Workbook;
@@ -44,7 +45,7 @@ public class ExcelFile {
 	
 	private static final String SHEET_NAME_DEF = "Sheet";
 
-	static Logger logger = Logger.getLogger(ExcelFile.class.getName());
+	static Logger logger = LogManager.getLogger(ExcelFile.class.getName());
 	
 	private WritableFont fontBasic = null;
 			//WritableFont.DEFAULT_POINT_SIZE,

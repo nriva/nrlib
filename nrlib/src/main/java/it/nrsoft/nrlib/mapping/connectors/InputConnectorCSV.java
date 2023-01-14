@@ -3,13 +3,14 @@ package it.nrsoft.nrlib.mapping.connectors;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 
 public class InputConnectorCSV extends ConnectorCSV implements InputConnector {
 	
-	static Logger logger = Logger.getLogger(InputConnectorCSV.class.getName());	
+	static Logger logger = LogManager.getLogger(InputConnectorCSV.class.getName());	
 	
 	
 	

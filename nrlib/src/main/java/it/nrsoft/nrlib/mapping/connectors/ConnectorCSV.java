@@ -2,11 +2,10 @@ package it.nrsoft.nrlib.mapping.connectors;
 
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+
 
 public abstract class ConnectorCSV extends Connector {
 	
-	static Logger logger = Logger.getLogger(ConnectorCSV.class.getName());	
 	
 	protected String line = null;
 	

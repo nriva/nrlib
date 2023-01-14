@@ -3,11 +3,12 @@ package it.nrsoft.nrlib.mapping.connectors;
 import java.text.*;
 import java.util.*;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class Connector {
 
-	static Logger logger = Logger.getLogger(Connector.class.getName());	
+	static Logger logger = LogManager.getLogger(Connector.class.getName());	
 	
 	
 	protected static final String DEF_PROPNAME_TYPE = "type";

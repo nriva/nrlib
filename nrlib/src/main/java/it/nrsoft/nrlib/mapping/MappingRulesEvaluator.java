@@ -5,11 +5,12 @@ import java.util.*;
 
 import javax.script.*;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MappingRulesEvaluator {
 	
-	static Logger logger = Logger.getLogger(MappingRulesEvaluator.class.getName());
+	static Logger logger = LogManager.getLogger(MappingRulesEvaluator.class.getName());
 	
 	private  Map<String,MappingRule> rules = new LinkedHashMap<String,MappingRule>();
 	private MappingRuleParser parser = new MappingRuleParser();

@@ -4,7 +4,9 @@ import java.util.*;
 
 import javax.script.*;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import it.nrsoft.nrlib.util.StringUtil;
 
@@ -12,7 +14,7 @@ import it.nrsoft.nrlib.util.StringUtil;
 
 public class MappingRule {
 	
-	static Logger logger = Logger.getLogger(MappingRule.class.getName());
+	static Logger logger = LogManager.getLogger(MappingRule.class.getName());
 	
 	
 	private MappingRulesEvaluator evaluator;

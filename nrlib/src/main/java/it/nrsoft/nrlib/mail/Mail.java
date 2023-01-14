@@ -16,15 +16,16 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import it.nrsoft.nrlib.util.StringUtil;
 
 
 public class Mail {
 	
-	static Logger logger = Logger.getLogger(Mail.class.getName());
-
+	static Logger logger = LogManager.getLogger(Mail.class);
 	public static final String MIME_TEXTHTML = "text/html";
 
 	/**

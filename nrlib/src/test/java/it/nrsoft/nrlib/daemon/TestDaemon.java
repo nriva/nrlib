@@ -7,12 +7,13 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.apache.commons.daemon.*;
-import org.apache.log4j.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 class EchoTask extends TimerTask {
 	
-	private Logger logger = Logger.getLogger(TestDaemon.class);
+	private Logger logger = LogManager.getLogger(TestDaemon.class);
 	
     @Override
     public void run() {
@@ -24,11 +25,11 @@ public class TestDaemon implements Daemon {
 
     private static Timer timer = null;
     
-    private static Logger logger = Logger.getLogger(TestDaemon.class);
+    private static Logger logger = LogManager.getLogger(TestDaemon.class);
 
     public static void main(String[] args) throws FileNotFoundException {
 		FileInputStream str = new FileInputStream("daemon.properties");
-		PropertyConfigurator.configure(str);
+		//PropertyConfigurator.configure(str);
         timer = new Timer();
         timer.schedule(new EchoTask(), 0, 1000);
     }

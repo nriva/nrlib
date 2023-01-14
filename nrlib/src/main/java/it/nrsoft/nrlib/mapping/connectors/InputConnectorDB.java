@@ -4,7 +4,8 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 
@@ -25,7 +26,7 @@ public class InputConnectorDB extends ConnectorDB implements InputConnector {
 		return ok;
 	}
 
-	static Logger logger = Logger.getLogger(InputConnectorDB.class.getName());
+	static Logger logger = LogManager.getLogger(InputConnectorDB.class.getName());
 
 	private ResultSetMetaData rsMetadata;
 	private ResultSet resultSet = null;

@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.log4j.BasicConfigurator;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,7 +62,7 @@ public class UnitTestJdbcMeta {
 //		InputStream propConnStream = UnitTestJdbcConn.class.getResourceAsStream("/connection.properties");		
 		
 		
-		BasicConfigurator.configure();		
+		//BasicConfigurator.configure();		
 		
 		java.util.Properties cadprop = new java.util.Properties();
 		cadprop.load( UnitTestJdbcConn.class.getResourceAsStream("/connection.properties"));

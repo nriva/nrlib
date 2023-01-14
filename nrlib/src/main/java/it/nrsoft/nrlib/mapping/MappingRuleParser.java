@@ -5,13 +5,14 @@ import java.io.Reader;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 
 public class MappingRuleParser {
 	
-	static Logger logger = Logger.getLogger(MappingRuleParser.class.getName());
+	static Logger logger = LogManager.getLogger(MappingRuleParser.class.getName());
 	
 	private static final int LVALUE = 1;
 	private static final int LVALUE_EQ = 2;

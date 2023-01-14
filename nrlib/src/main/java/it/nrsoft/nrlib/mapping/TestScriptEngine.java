@@ -4,8 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map.Entry;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.PropertyConfigurator;
+
 
 public class TestScriptEngine {
 
@@ -14,15 +13,15 @@ public class TestScriptEngine {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		
+		/*
 		FileInputStream str;
 		try {
 			str = new FileInputStream("log.properties");
-			PropertyConfigurator.configure(str);
+			Configurator
 		} catch (FileNotFoundException e1) {
 			BasicConfigurator.configure();
 		}
-		
+		*/
 		MappingRuleParser parser = new MappingRuleParser();
 		MappingRule rule = parser.parse("a=@script(a,b,c);fmt=\"dd/MM/yyyy\";prop1=value1");
 		

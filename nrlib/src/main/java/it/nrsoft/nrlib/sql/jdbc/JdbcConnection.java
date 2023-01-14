@@ -9,7 +9,8 @@ import java.util.Properties;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 
@@ -27,7 +28,7 @@ import org.apache.log4j.Logger;
 
 public class JdbcConnection {
 	
-	static Logger logger = Logger.getLogger(JdbcConnection.class.getName());
+	static Logger logger = LogManager.getLogger(JdbcConnection.class.getName());
 	
     
 	public  String catalogSeparator;

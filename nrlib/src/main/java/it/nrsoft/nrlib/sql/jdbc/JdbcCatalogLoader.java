@@ -3,7 +3,8 @@ package it.nrsoft.nrlib.sql.jdbc;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import it.nrsoft.nrlib.sql.CatalogMetadata;
 import it.nrsoft.nrlib.sql.ColumnMetadata;
@@ -14,7 +15,7 @@ import it.nrsoft.nrlib.sql.TableMetadata;
 
 public class JdbcCatalogLoader {
 	
-	private static Logger logger = Logger.getLogger(JdbcCatalogLoader.class.getName());
+	private static Logger logger = LogManager.getLogger(JdbcCatalogLoader.class.getName());
 	
 	
 	/**

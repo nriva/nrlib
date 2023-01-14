@@ -4,14 +4,15 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import it.nrsoft.nrlib.sql.*;
 import it.nrsoft.nrlib.sql.jdbc.*;
 
 public abstract class ConnectorDB extends Connector {
 	
-	static Logger logger = Logger.getLogger(ConnectorDB.class.getName());
+	static Logger logger = LogManager.getLogger(ConnectorDB.class.getName());
 	
 	
 	protected JdbcConnection connection = null;
