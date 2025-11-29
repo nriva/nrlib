@@ -1,6 +1,6 @@
 package it.nrsoft.nrlib.combinatorial;
 
-public abstract class  Permutation extends CombinatorialBase {
+public abstract class Permutation extends CombinatorialBase {
 
 	public Permutation(int maxSymbol) {
 		super(maxSymbol, maxSymbol);
@@ -26,6 +26,14 @@ public abstract class  Permutation extends CombinatorialBase {
 		generate(newWord,0,symbols);	
 	}
 
+	/*
+	 * a,b,c -> a,b,c
+	 * 			  c,b
+	 * 			b,a,c
+	 * 			 ,c,a
+	 * 			c,a,b
+	 * 			 ,b,a
+	 */
 	protected void generate(int[] newWord,int len,int[] symbols)
 	{
 		int[] workSave = (int[])newWord.clone();

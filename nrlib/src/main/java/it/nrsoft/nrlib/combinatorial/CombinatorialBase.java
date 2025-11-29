@@ -15,7 +15,7 @@ public abstract class CombinatorialBase
 	*/
 	protected int[] word;
 	/**
-	Cardinalit� dell'insieme di parole
+	Cardinalità dell'insieme di parole
 	*/
 	protected long cardinality;
 

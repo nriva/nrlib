@@ -4,30 +4,22 @@
 
   <groupId>it.nrsoft</groupId>
   <artifactId>nrapps</artifactId>
-  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <name>nrapps</name>
   
-       <parent>
-	<groupId>nrlib</groupId>
-   <artifactId>nrlibparent</artifactId>
-  <version>1.0.0</version>
-    </parent>
-  
-  <url>http://maven.apache.org</url>
+	<parent>
+ 		<groupId>nrlib</groupId>
+ 		<artifactId>nrlibparent</artifactId>
+ 		<version>1.0.0</version>
+	</parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+    
+      <dependencies>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
-      <scope>test</scope>
-    </dependency>
     
 	<dependency>
 	<groupId>com.sun.mail</groupId>
@@ -91,9 +83,9 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <release>11</release>
         </configuration>
       </plugin>   
   </plugins>

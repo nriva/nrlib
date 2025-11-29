@@ -35,12 +35,7 @@ public abstract class CombinationRep extends CombinatorialBase {
 			generated(newWord);
 	}
 	
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <param name="symbols"></param>
-	/// <param name="excluded"></param>
-	/// <returns></returns>
+
 	protected int[] subset(int[] symbols,int excluded)
 	{
 		int[] sset = new int[symbols.length-1];
